@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>MySQL学习笔记 | 云涛</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;williamjie&#x2F;p&#x2F;11187470.html https:&#x2F;&#x2F;blog.csdn.net&#x2F;madongyu1259892936&#x2F;article&#x2F;details&#x2F;98977113 概念数据库与实例数据库（database）：物理操作系统文件或其他形式文件类型的集合。 实例（instance）：MySQL数据库由后台线程以及一个共享内存区组成。数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记">
+<meta property="og:url" content="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="云涛">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;williamjie&#x2F;p&#x2F;11187470.html https:&#x2F;&#x2F;blog.csdn.net&#x2F;madongyu1259892936&#x2F;article&#x2F;details&#x2F;98977113 概念数据库与实例数据库（database）：物理操作系统文件或其他形式文件类型的集合。 实例（instance）：MySQL数据库由后台线程以及一个共享内存区组成。数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="e:/Document/学习笔记/图片/数据库/索引创建方式.png">
+<meta property="og:image" content="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/42655-20190222000420486-835926543.png">
+<meta property="og:image" content="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/20201207103106902.png">
+<meta property="article:published_time" content="2021-05-25T03:01:29.000Z">
+<meta property="article:modified_time" content="2021-05-25T03:01:33.744Z">
+<meta property="article:author" content="王云涛">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="e:/Document/学习笔记/图片/数据库/索引创建方式.png">
+  
+    <link rel="alternate" href="/atom.xml" title="云涛" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">云涛</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MySQL学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-05-25T03:01:29.000Z" itemprop="datePublished">2021-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      MySQL学习笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/williamjie/p/11187470.html">https://www.cnblogs.com/williamjie/p/11187470.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/madongyu1259892936/article/details/98977113">https://blog.csdn.net/madongyu1259892936/article/details/98977113</a></p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="数据库与实例"><a href="#数据库与实例" class="headerlink" title="数据库与实例"></a>数据库与实例</h2><p><strong>数据库</strong>（database）：物理操作系统文件或其他形式文件类型的集合。</p>
+<p><strong>实例</strong>（instance）：MySQL数据库由后台线程以及一个共享内存区组成。数据库实例才是真正用于操作数据库文件的。</p>
+<p>从概念上将，</p>
+<p>数据库是<strong>文件的集合</strong>，是以找某种数据模型组织起来并存放于二级存储器中的数据集合；</p>
+<p>数据库实例是<strong>程序</strong>，是位于用户与操作系统之间的一层<strong>数据管理软件</strong>， 用户对数据的任何操作，包括数据库定义、数据查询、数据维护、数据库运行控制等都是在数据库实例下进行的，应用程序只有通过数据库实例才能和数据库打交道。</p>
+<p>在MySQL数据库中，实例与数据库的关系通常是一一对应的，即一个实例对应一个数据库。但是，在集群情况下可能存在一个数据库被多个数据实例使用的情况。</p>
+<p>MySQL被设计为一个单进程多线程架构的数据库，MySQL数据库实例在系统上的表现就是一个进程。</p>
+<h2 id="实例的启动"><a href="#实例的启动" class="headerlink" title="实例的启动"></a>实例的启动</h2><p>当启动实例时，MySQL数据库会去读取配置文件，根据配置文件的参数来启动数据库实例。</p>
+<p>如果没有参数，在启动实例时，MySQL会按照编译时的默认参数设置启动实例。</p>
+<h2 id="MySQL的组成"><a href="#MySQL的组成" class="headerlink" title="MySQL的组成"></a>MySQL的组成</h2><ul>
+<li>连接池组件</li>
+<li>管理服务和工具组件</li>
+<li>SQL接口组件</li>
+<li>查询分析器组件</li>
+<li>优化器组件</li>
+<li>缓冲（cache）组件</li>
+<li><strong>插件式存储引擎</strong></li>
+<li>物理组件</li>
+</ul>
+<h2 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h2><p>MySQL数据库区别于其他数据库的最重要的一个特点就是其插件式的表存储引擎。</p>
+<p><strong>存储引擎是基于表的，而不是数据库</strong></p>
+<p>存储引擎的好处：每个存储引擎都有各自的特点，能够根据具体的应用建立不同存储引擎表。</p>
+<ul>
+<li><strong>InnoDB存储引擎</strong>，MySQL5.5.8开始作为默认存储引擎。</li>
+<li><strong>MyISAM存储引擎</strong>，MySQL5.5.8之前的默认存储引擎（Windows版本除外）</li>
+<li><strong>NDB存储引擎</strong></li>
+<li><strong>Memory存储引擎</strong></li>
+<li><strong>Archive存储引擎</strong></li>
+<li><strong>Federated存储引擎</strong></li>
+<li><strong>Maria存储引擎</strong></li>
+</ul>
+<h2 id="连接-MySQL"><a href="#连接-MySQL" class="headerlink" title="连接 MySQL"></a>连接 MySQL</h2><p>连接 MySQL 操作时一个连接进程和MySQL数据库实例进行通信。</p>
+<p>本质上是进程通信。</p>
+<p>常用的进程通信方式有<strong>管道</strong>、<strong>命名管道</strong>、<strong>TCP/IP套接字</strong>、<strong>UNIX套接字</strong></p>
+<ul>
+<li><p>TCP/IP</p>
+<p>是在任何平台下都提供的连接方式，使用最多。</p>
+<p>这种连接方式在TCP/IP连接上建立一个基于网络的连接请求，一般情况下客户端（cline）在一台服务器上，而MySQL实例（server）在另一台服务器上，两台服务器通过过一个TCP/IP连接。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h192.168.0.101 -u wang -p</span><br></pre></td></tr></table></figure>
+
+<p>在通过TCP/IP连接到MySQL实例时，MySQL数据库会查一张权限视图，用来判断发起请求的客户端IP是否允许连接到MySQL实例。</p>
+<p>该视图在MySQL架构下，表名为user。 </p>
+</li>
+<li><p>命名管道和共享内存</p>
+<p>在MySQL数据库中需在配置文件中启用–enable-named-pipe选项。</p>
+<p>MySQL4.1后，MySQL还提供了共享内存的连接方式，是通过在配置文件中添加–shared-memory实现的。</p>
+<p>如果想使用共享内存的方式，在连接时，客户端必须使用–protocal=memory选项。</p>
+</li>
+<li><p>UNIX域套接字</p>
+<p>Linux和Unix环境下可以使用UNIX域套接字。</p>
+<p>只能在MySQL数据库和客户端在同一台服务器上时使用。</p>
+<p>用户可以在配置文件中指定套接字文件的路径，如–socket=/tmp/mysql.sock。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -udavid -S /tmp/mysqql.sock</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>如果几个配置文件中都有同一个参数，MySQL数据库会以读取到的最后一个配置文件中的参数为准</p>
+<h2 id="数据库三大范式"><a href="#数据库三大范式" class="headerlink" title="数据库三大范式"></a>数据库三大范式</h2><ul>
+<li><p><strong>第一范式：</strong>数据库表的每一列都是不可分割的基本数据项，同一列中不能有多个值，即实体中的某个属性不能有多个值或者不能有重复的属性。（保持数据的原子性）</p>
+<p><strong>即表中的字段不可再分。</strong></p>
+</li>
+<li><p><strong>第二范式：</strong>在满足第一范式的基础上，实体的每个非主键属性完全函数依赖于主键属性（消除部分依赖）</p>
+</li>
+<li><p><strong>第三范式：</strong>在满足第二范式的基础上，在实体中不存在非主键属性传递函数依赖于主键属性。（表中非主键字段不存在对主键的传递依赖）</p>
+</li>
+</ul>
+<p>部分依赖：当主键由两个或两个以上字段构成，而表中的某些信息通过主键的一个字段就能唯一确定，我们称这样的依赖关系为部分依赖</p>
+<p>不符合第二范式会带来哪些问题呢？</p>
+<p>1、数据信息冗余，可见上表</p>
+<p>2、增删改会出现问题，比如有一门《微机原理》没有人选，那么由于缺少学号（主键之一）那么这门课就不能出现在表里。</p>
+<h2 id="myisam、innodb区别"><a href="#myisam、innodb区别" class="headerlink" title="myisam、innodb区别"></a>myisam、innodb区别</h2><ol>
+<li><p>InnoDB支持<strong>事务</strong>，MyISAM不支持。对于InnoDB，每一条SQL语言都默认封装成事务，自动提交，这样会影响速度，所以最好把多条SQL语言放在begin和commit之间，组成一个事务。 </p>
+</li>
+<li><p>InnoDB支持<strong>外键</strong>，而MyISAM不支持。一个包含外键的InnoDB表转为MYISAM会失败。</p>
+</li>
+<li><p>InnoDB是<strong>聚集索引</strong>，使用B+Tree作为索引结构，数据文件是和（主键）索引绑在一起的（表数据文件本身就是按B+Tree组织的一个索引结构），必须要有主键，通过主键索引效率很高。但是辅助索引需要两次查询，先查询到主键，然后再通过主键查询到数据。因此，主键不应该过大，因为主键太大，其他索引也都会很大。</p>
+</li>
+</ol>
+<p>  MyISAM是<strong>非聚集索引</strong>，也是使用B+Tree作为索引结构，索引和数据文件是分离的，索引保存的是数据文件的<strong>指针</strong>。主键索引和辅助索引是独立的。</p>
+<p>  也就是说：InnoDB的B+树主键索引的叶子节点就是数据文件，辅助索引的叶子节点是主键的值；而MyISAM的B+树主键索引和辅助索引的叶子节点都是数据文件的地址指针。</p>
+<ol start="4">
+<li><p><strong>InnoDB不保存表的具体行数</strong>，执行select count(*) from table时需要全表扫描。而MyISAM用一个变量保存了整个表的行数，执行上述语句时只需要读出该变量即可，速度很快（注意不能加有任何WHERE条件）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">为什么InnoDB没有了这个变量呢？</span><br><span class="line"></span><br><span class="line">因为InnoDB的事务特性，在同一时刻表中的行数对于不同的事务而言是不一样的，因此count统计会计算对于当前事务而言可以统计到的行数，而不是将总行数储存起来方便快速查询。InnoDB会尝试遍历一个尽可能小的索引除非优化器提示使用别的索引。如果二级索引不存在，InnoDB还会尝试去遍历其他聚簇索引。</span><br><span class="line">如果索引并没有完全处于InnoDB维护的缓冲区（Buffer Pool）中，count操作会比较费时。可以建立一个记录总行数的表并让你的程序在INSERT/DELETE时更新对应的数据。和上面提到的问题一样，如果此时存在多个事务的话这种方案也不太好用。如果得到大致的行数值已经足够满足需求可以尝试SHOW TABLE STATUS</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>MyISAM表格可以被压缩后进行查询操作</strong>。</p>
+</li>
+<li><p><strong>InnoDB支持表、行(默认)级锁，而MyISAM支持表级锁</strong>。</p>
+<p>InnoDB的行锁是实现在索引上的，而不是锁在物理行记录上。潜台词是，如果访问没有命中索引，也无法使用行锁，将要退化为表锁。</p>
+</li>
+<li><p><strong>InnoDB表必须有唯一索引（如主键）（用户没有指定的话会自己找/生产一个隐藏列Row_id来充当默认主键），而Myisam可以没有</strong></p>
+</li>
+</ol>
+<p><strong>如何选择：</strong></p>
+<ol>
+<li>是否要支持事务，如果要请选择innodb，如果不需要可以考虑MyISAM；</li>
+<li>如果表中绝大多数都只是读查询，可以考虑MyISAM，如果既有读也有写，请使用InnoDB。</li>
+<li>系统奔溃后，MyISAM恢复起来更困难，能否接受；</li>
+<li>MySQL5.5版本开始Innodb已经成为Mysql的默认引擎(之前是MyISAM)，说明其优势是有目共睹的，如果你不知道用什么，那就用InnoDB，至少不会差。</li>
+</ol>
+<p><strong>InnoDB为什么推荐使用自增ID作为主键？</strong></p>
+<p>  <strong>答：自增ID可以保证每次插入时B+索引是从右边扩展的，可以避免B+树和频繁合并和分裂（对比使用UUID）。如果使用字符串主键和随机主键，会使得数据随机插入，效率比较差。</strong></p>
+<h2 id="innodb引擎的关键特性"><a href="#innodb引擎的关键特性" class="headerlink" title="innodb引擎的关键特性"></a>innodb引擎的关键特性</h2><p>插入缓冲（insert buffer)</p>
+<p>两次写(double write)</p>
+<p>自适应哈希索引(ahi)</p>
+<p>异步IO</p>
+<p>刷新邻接页</p>
+<p>预读(read ahead)</p>
+<h2 id="页"><a href="#页" class="headerlink" title="页"></a>页</h2><p>Mysql的基本存储结构是页（记录都存在页里边）</p>
+<p>各个数据页可以组成一个双向链表，而每个数据页中的记录又可以组成一个单向链表</p>
+<p>每个数据页都会为存储在它里边的记录生成一个页目录，在通过主键查找某条记录的时候可以在页目录中使用二分法快速定位到对应的槽，然后再遍历该槽对应分组中的记录即可快速找到指定的记录</p>
+<p>以其他列(非主键)作为搜索条件：只能从最小记录开始依次遍历单链表中的每条记录。</p>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><h2 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h2><p>“索引”是为了能够更快地查询数据。</p>
+<p>如果查询语句使用到了索引，会先去索引里面查询，取得数据所在行的物理地址，进而访问数据。 myisam</p>
+<h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><p><strong>优势：</strong></p>
+<ul>
+<li>快速检索，减少I/O次数，加快检索速度；</li>
+<li>根据索引分组和排序，可以加快分组和排序；</li>
+</ul>
+<p><strong>劣势：</strong></p>
+<ul>
+<li>索引本身也是表，因此会占用存储空间。</li>
+<li>索引的维护和创建需要时间成本，这个成本随着数据量增大而增大；</li>
+<li>构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。</li>
+</ul>
+<h2 id="索引的创建"><a href="#索引的创建" class="headerlink" title="索引的创建"></a>索引的创建</h2><p><img src="E:\Document\学习笔记\图片\数据库\索引创建方式.png" alt="f1957c4fde62f149224b19889f82ba48.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE table_name</span><br><span class="line">[col_name data type]</span><br><span class="line">[unique|fulltext]</span><br><span class="line">[index|key]</span><br><span class="line">[index_name]</span><br><span class="line">(col_name[length])</span><br><span class="line">[asc|desc]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>unique|fulltext</code>为可选参数，分别表示唯一索引、全文索引 </li>
+<li><code>index</code>和<code>key</code>为同义词，两者作用相同，用来指定创建索引 </li>
+<li><code>col_name</code>为需要创建索引的字段列，该列必须从数据表中该定义的多个列中选择 </li>
+<li><code>index_name</code>指定索引的名称，为可选参数，如果不指定，默认<code>col_name</code>为索引值 </li>
+<li><code>length</code>为可选参数，表示索引的长度，只有字符串类型的字段才能指定索引长度 </li>
+<li><code>asc</code>或<code>desc</code>指定升序或降序的索引值存储</li>
+</ul>
+<h2 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/7897.html">http://c.biancheng.net/view/7897.html</a></p>
+<table>
+<thead>
+<tr>
+<th>按照算法分类</th>
+<th>B tree索引、hash索引、R tree索引、Full text 索引</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>按照字段约束分类</td>
+<td>主键索引、唯一索引、普通索引、简单索引、组合索引</td>
+</tr>
+<tr>
+<td>按照索引字段是否排序分类</td>
+<td>聚簇索引、非聚簇索引</td>
+</tr>
+<tr>
+<td>聚簇索引按照索引量分类</td>
+<td>稠密索引、稀疏索引</td>
+</tr>
+</tbody></table>
+<p>数据库中按照数据结构来分，常见的索引有B-tree索引和Hash索引，不同的存储引擎对于索引又不相同。。。</p>
+<h2 id="根据字段约束分类"><a href="#根据字段约束分类" class="headerlink" title="根据字段约束分类"></a>根据字段约束分类</h2><p>MySQL目前主要有以下五种索引类型： </p>
+<p>普通索引、唯一索引、主键索引、组合索引、全文索引</p>
+<h3 id="普通索引（简单索引）"><a href="#普通索引（简单索引）" class="headerlink" title="普通索引（简单索引）"></a>普通索引（简单索引）</h3><ul>
+<li>普通索引是最基本的索引，它没有任何限制，仅加速查询。</li>
+</ul>
+<p>普通索引可以是聚簇索引，也可以是非聚簇索引</p>
+<h3 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h3><ul>
+<li>索引列的值必须唯一，但允许有空值。</li>
+<li>如果是组合索引，则列值的组合必须唯一。</li>
+</ul>
+<h3 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h3><ul>
+<li><p>主键索引是一种特殊的唯一索引。</p>
+</li>
+<li><p>一个表只能有一个主键，不允许有空值。</p>
+</li>
+<li><p>一般是在建表的时候同时创建主键索引。</p>
+</li>
+</ul>
+<h3 id="组合索引（联合索引）"><a href="#组合索引（联合索引）" class="headerlink" title="组合索引（联合索引）"></a>组合索引（联合索引）</h3><p>又称为多列索引，多列值组成一个索引，专门用于组合搜索，其效率大于索引合并</p>
+<p>MySQL在根据索引查询时，会遵循 “ 最左匹配 ” 原则，即先根据col1的条件查，再根据col2的条件查，然后再根据col3的条件去查。</p>
+<ul>
+<li><p>组合索引指多个字段上创建的索引</p>
+</li>
+<li><p>只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。</p>
+</li>
+<li><p>使用组合索引时遵循最左前缀集合</p>
+</li>
+</ul>
+<h3 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h3><ul>
+<li>对文本的内容进行分词，进行搜索</li>
+</ul>
+<ul>
+<li>主要用来查找文本中的关键字，而不是直接与索引中的值相比较。</li>
+<li><code>fulltext</code>索引配合<code>match against</code>操作使用，而不是一般的where语句加like。</li>
+</ul>
+<h2 id="根据数据结构分类"><a href="#根据数据结构分类" class="headerlink" title="根据数据结构分类"></a>根据数据结构分类</h2><p>MySQL的索引是由存储引擎来实现的。</p>
+<h3 id="B-Tree索引"><a href="#B-Tree索引" class="headerlink" title="B-Tree索引"></a>B-Tree索引</h3><p>当人们谈论索引的时候，如果没有特别指明类型，那多半说的是B-Tree索引，它使用B-Tree数据结构来存储数据。</p>
+<p><strong>不同存储引擎中的 B-Tree索引：</strong></p>
+<p>大多数MySQL引擎都支持这种索引。我们使用术语 “ B-Tree ”是因为MySQL在 <code>CREATE TABLE</code>和其他语句中也使用该关键字。</p>
+<p>底层的存储引擎也可能使用不同的存储结构，例如，NDB集群存储引擎内部实际上使用了T-Tree结构存储这种索引， 即使其名字是BTREE ；InnoDB则使用的是B+Tree。</p>
+<p>存储引擎以不同的方式使用B-Tree索引，性能也各有不同，各有优劣。例如，MyISAM使用前缀压缩技术使得索引更小，但InnoDB则按照原数据格式进行存储。 再如MyISAM索引通过数据的物理位置引用被索引的行，而InnoDB则根据主键引用被索引的行。</p>
+<p>B-Tree通常意味着所有的值都是按顺序存储的，并且每一个叶子页到根的距离相同。</p>
+<p>B-Tree索引能够加快访问数据的速度，因为存储引擎不再需要进行全表扫描来获取需要的数据，取而代之的是从索引的根节点开始进行搜索。根节点的槽中存放了指向子节点的指针，存储引擎根据这些指针向下层查找。通过比较节点页的值和要查找的值可以找到合适的指针进入下层子节点，这些指针实际上定义了子节点页中值的上限和下限。最终存储引擎要么是找到对应的值，要么该记录不存在。</p>
+<p>叶子节点比较特别，它们的指针指向的是被索引的数据，而不是其他的节点页 (不同引擎的“指针”类型不同)。</p>
+<h4 id="B-树索引"><a href="#B-树索引" class="headerlink" title="B+树索引"></a>B+树索引</h4><p>我们平时使用最多的InnoDB引擎就是基于B+Tree索引的。</p>
+<p>二叉树在数据量较大时，深度过深，不太适合数据库的查询，所以数据库使用了多叉树。</p>
+<p><strong>B+Tree 对比 BTree的优点：</strong></p>
+<p>一般来说B+Tree比BTree更适合实现外存的索引结构，因为存储引擎的设计专家巧妙的利用了外存（磁盘）的存储结构。</p>
+<p>磁盘的最小存储单位是扇区（sector），而操作系统的块（block）通常是整数倍的sector，操作系统以页（page）为单位管理内存，一页（page）通常默认为4K，数据库的页通常设置为操作系统页的整数倍，因此索引结构的节点被设计为一个页的大小，然后利用外存的“预读取”原则，每次读取的时候，把整个节点的数据读取到内存中，然后在内存中查找。</p>
+<p>已知内存的读取速度是外存读取I/O速度的几百倍，那么提升查找速度的关键就在于尽可能少的磁盘I/O，那么可以知道，每个节点中的key个数越多，那么树的高度越小，需要I/O的次数越少，因此一般来说B+Tree比BTree更快，因为B+Tree的非叶节点中不存储data，就可以存储更多的key。</p>
+<p>可参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39860280/article/details/110864822">https://blog.csdn.net/weixin_39860280/article/details/110864822</a></p>
+<p>B+树的优点：</p>
+<ol>
+<li><p>非叶子节点不会带上ROWID，这样，一个块中可以容纳更多的索引项，一是可以降低树的高度。二是一个内部节点可以定位更多的叶子节点。</p>
+</li>
+<li><p>叶子节点之间通过指针来连接，范围扫描将十分简单，而对于B树来说，则需要在叶子节点和内部节点不停的往返移动。</p>
+</li>
+</ol>
+<p>B树的优点：</p>
+<p>对于在内部节点的数据，可直接得到，不必根据叶子节点来定位。</p>
+<ol>
+<li><p>B+-tree的磁盘读写代价更低  B+-tree的内部结点并没有指向关键字具体信息的指针。因此其内部结点相对B 树更小。如果把所有同一内部结点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多。一次性读入内存中的需要查找的关键字也就越多。相对来说IO读写次数也就降低了。  举个例子，假设磁盘中的一个盘块容纳16bytes，而一个关键字2bytes，一个关键字具体信息指针2bytes。一棵9阶B-tree(一个结点最多8个关键字)的内部结点需要2个盘快。而B+ 树内部结点只需要1个盘快。当需要把内部结点读入内存中的时候，B 树就比B+ 树多一次盘块查找时间(在磁盘中就是盘片旋转的时间)。 </p>
+</li>
+<li><p>B+-tree的查询效率更加稳定  由于非终结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引。所以任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
+</li>
+<li><p>“B+树还有一个最大的好处，方便扫库，B树必须用中序遍历的方法按序扫库，而B+树直接从叶子结点挨个扫一遍就完了，B+树支持range-query非常方便，而B树不支持。这是数据库选用B+树的最主要原因。</p>
+</li>
+</ol>
+<h4 id="聚簇索引、一级索引、聚集索引、主键索引"><a href="#聚簇索引、一级索引、聚集索引、主键索引" class="headerlink" title="聚簇索引、一级索引、聚集索引、主键索引"></a>聚簇索引、一级索引、聚集索引、主键索引</h4><p>前段时间看到一个问题：“你知道为什么InnoDB非主键索引普遍比主键索引要慢吗？”答案是InnoDB使用了聚簇索引，主键索引主需要查询一次，而非主键索引需要查询两次。</p>
+<p>聚簇索引就是按照每张表的主键构造一颗B+树，同时叶子节点中存放的就是整张表的行记录数据，也将聚集索引的叶子节点称为数据页。这个特性决定了索引组织表中数据也是索引的一部分，每张表只能拥有一个聚簇索引。</p>
+<p>Innodb通过主键聚集数据，如果没有定义主键，innodb会选择非空的唯一索引代替。如果没有这样的索引，innodb会隐式的定义一个主键来作为聚簇索引。</p>
+<p>优点：</p>
+<p>​    1.数据访问更快，因为聚簇索引将索引和数据保存在同一个B+树中，因此从聚簇索引中获取数据比非聚簇索引更快</p>
+<p>　2.聚簇索引对于主键的排序查找和范围查找速度非常快<br>缺点：</p>
+<p>　1.插入速度严重依赖于插入顺序，按照主键的<strong>顺序插入</strong>是最快的方式，否则将会出现页分裂，严重影响性能。因此，对于InnoDB表，我们一般都会定义一个<strong>自增的ID列为主键</strong></p>
+<p>​    2.<strong>更新主键的代价很高</strong>，因为将会导致被更新的行移动。因此，对于InnoDB表，我们一般定义主键为不可更新。</p>
+<p>​    3.二级索引访问需要两次索引查找，第一次找到主键值，第二次根据主键值找到行数据。</p>
+<h4 id="非聚簇索引、二级索引、辅助索引"><a href="#非聚簇索引、二级索引、辅助索引" class="headerlink" title="非聚簇索引、二级索引、辅助索引"></a>非聚簇索引、二级索引、辅助索引</h4><p>在<strong>聚簇索引之上创建的索引称之为辅助索引</strong>，辅助索引访问数据总是需要二次查找。辅助索引叶子节点存储的不再是行的物理位置，而是主键值。通过辅助索引首先找到的是主键值，再通过主键值找到数据行的数据页，再通过数据页中的Page Directory找到数据行。</p>
+<p>辅助索引的存在不影响数据在聚簇索引中的组织，所以一张表可以有多个辅助索引。在innodb中有时也称辅助索引为二级索引。</p>
+<p>聚集索引，表中存储的数据按照索引的顺序存储，检索效率比普通索引高，但对数据新增/修改/删除的影响比较大 </p>
+<p>非聚集索引，不影响表中的数据存储顺序,，检索效率比聚集索引低，对数据新增/修改/删除的影响很小</p>
+<h5 id="回表"><a href="#回表" class="headerlink" title="回表"></a>回表</h5><p>回到主键索引树搜索的过程，就是回表。</p>
+<h5 id="覆盖索引（索引覆盖）"><a href="#覆盖索引（索引覆盖）" class="headerlink" title="覆盖索引（索引覆盖）"></a>覆盖索引（索引覆盖）</h5><p>不过也有方法避免回表，那就是覆盖索引。</p>
+<ul>
+<li>解释一： 就是select的数据列只用从索引中就能够取得，不必从数据表中读取，换句话说查询列要被所使用的索引覆盖。</li>
+<li>解释二： 索引是高效找到行的一个方法，当能通过检索索引就可以读取想要的数据，那就不需要再到数据表中读取行了。如果一个索引包含了（或覆盖了）满足查询语句中字段与条件的数据就叫做覆盖索引。</li>
+<li>解释三：是非聚集组合索引的一种形式，它包括在查询里的Select、Join和Where子句用到的所有列（即建立索引的字段正好是覆盖查询语句[select子句]与查询条件[Where子句]中所涉及的字段，也即，索引包含了查询正在查找的所有数据）。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36344771/article/details/105547442">https://blog.csdn.net/qq_36344771/article/details/105547442</a></p>
+<h4 id="联合索引、多列索引、组合索引"><a href="#联合索引、多列索引、组合索引" class="headerlink" title="联合索引、多列索引、组合索引"></a>联合索引、多列索引、组合索引</h4><p>联合索引也是一颗B+树，不同的是联合索引的键值的数量不是1，而是大于等于2。</p>
+<h3 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h3><p>哈希索引（hash index）基于哈希表实现，只有精确匹配到索引所有列的查询才有效。</p>
+<p>对于每一行数据，存储引擎都会对所有的索引列计算一个哈希码（hash code），哈希码是一个较小的值，并且不同键值的行计算出来的哈希码也不一样。哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向每个数据行的指针。 </p>
+<p>MySql 最常用存储引擎 InnoDB 和 MyISAM 都不支持 Hash 索引，它们默认的索引都是 B-Tree。但是如果你在创建索引的时候定义其类型为 Hash，MySql 并不会报错，而且你通过 SHOW CREATE TABLE 查看该索引也是 Hash，只不过该索引实际上还是 B-Tree。</p>
+<p>但 InnoDB 有另一种实现方法：自适应哈希索引。</p>
+<h5 id="自适应哈希索引"><a href="#自适应哈希索引" class="headerlink" title="自适应哈希索引"></a>自适应哈希索引</h5><p>InnoDB引擎有一个特殊的功能叫做 “自适应哈希索引（adaptive hash index）”，当innodb注意到某些索引值被使用的非常频繁时，它会在内存中基于btree索引之上再创建一个哈希索引，这样就让btree索引也具有哈希索引的一些优点，比如：快速的哈希查找，这是一个全自动的，内部的行为，用户无法控制或者配置，不过如果有必要，可以选择关闭这个功能（innodb_adaptive_hash_index=OFF，默认为ON）。</p>
+<h5 id="自定义哈希索引"><a href="#自定义哈希索引" class="headerlink" title="自定义哈希索引"></a>自定义哈希索引</h5><h3 id="全文索引-1"><a href="#全文索引-1" class="headerlink" title="全文索引"></a>全文索引</h3><p>全文索引是一种特殊类型的索引，它查找的是文本中的关键词，而不是直接比较索引中的值。</p>
+<p>innodb 从1.2.x 开始才增加了全文索引支持。</p>
+<h4 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h4><p>倒排索引源于实际应用中需要根据属性的值来查找记录。</p>
+<p>这种索引表中的每一项都包括一个属性值和具有该属性值的各记录的地址。</p>
+<p>由于不是由记录来确定属性值，而是由属性值来确定记录的位置，因而称为倒排索引（inverted index）。带有倒排索引的文件我们称为倒排索引文件，简称倒排文件。</p>
+<h3 id="空间数据索引（R-Tree）"><a href="#空间数据索引（R-Tree）" class="headerlink" title="空间数据索引（R-Tree）"></a>空间数据索引（R-Tree）</h3><p>MyISAM表支持空间索引，可以用作地理数据存储。</p>
+<p>和B-Tree不同，空间索引无须前缀查询。</p>
+<p>空间索引会从所有维度来索引数据。</p>
+<h3 id="分形树索引"><a href="#分形树索引" class="headerlink" title="分形树索引"></a>分形树索引</h3><h2 id="索引失效的情况（SQL优化）"><a href="#索引失效的情况（SQL优化）" class="headerlink" title="索引失效的情况（SQL优化）"></a>索引失效的情况（SQL优化）</h2><p><strong>对查询进行优化,尽量避免全表扫描,避免导致索引失效</strong></p>
+<ol>
+<li><p>在where子句中进行null值判断的话会导致引擎放弃索引而产生全表扫描</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num is null</span><br><span class="line"></span><br><span class="line">在建立数据库的时候因尽量为字段设置默认值，如int类型可以使用0，varchar类型使用 &#x27;&#x27;</span><br><span class="line">当你在指定类型大小如int(11)时，其实空间就已经固定了，即使存的是null也是这个大小</span><br></pre></td></tr></table></figure></li>
+<li><p>避免在where子句中使用<code>!= ,&lt; &gt;</code>这样的符号，否则会导致引擎放弃索引而产生全表扫描。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num != 0</span><br></pre></td></tr></table></figure></li>
+<li><p>避免在where子句中使用<code>or</code>来连接条件,<strong>因为如果俩个字段中有一个没有索引的话,引擎会放弃索引而产生全表扫描</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num = 0 OR num = 1</span><br></pre></td></tr></table></figure></li>
+<li><p>可以考虑使用<code>between</code>,但是只能是连续的数值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num BETWEEN 0 AND 1</span><br></pre></td></tr></table></figure></li>
+<li><p>避免在where子句中使用<code>in</code>关于网上说的MySQL在使用<code>in</code>不走索引的问题,严谨的来说的话分为俩种情况</p>
+<ul>
+<li><ul>
+<li><p>走索引的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num IN (1)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><ul>
+<li><p>不走索引的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num IN (1,2)其实在in里面,如果只有一个值的话是等价于num = 1的</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>避免在where子句中<code>=</code>的左边使用表达式操作或者函数操作</p>
+<ul>
+<li><ul>
+<li>表达式</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> num <span class="operator">/</span> <span class="number">2</span> <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><ul>
+<li>函数操作</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE SUBSTRING(name,1,2) = &#x27;wise&#x27;</span><br></pre></td></tr></table></figure></li>
+<li><p>在使用联合索引是要注意<strong>最左原则</strong>，例如如果当前联合索引是<code>index(a,b,c)</code>，那么如果where子句中有<code>a</code>就会用到联合索引，但是如果只用到<code>b,c</code>就会失去索引效果。</p>
+</li>
+<li><p>避免在where子句中使用<code>like</code>模糊查询。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;wise&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="慢查询优化"><a href="#慢查询优化" class="headerlink" title="慢查询优化"></a>慢查询优化</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32002253/article/details/86772940">https://blog.csdn.net/qq_32002253/article/details/86772940</a></p>
+<h3 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h3><p>MySQL会一直向右匹配直到遇到范围查询（&gt;,&lt;,BETWEEN,LIKE）就停止匹配。</p>
+<ul>
+<li>索引可以简单如一个列 (a)，也可以复杂如多个列 (a,b,c,d)，即联合索引。</li>
+<li>如果是联合索引，那么key也由多个列组成，同时，索引只能用于查找key是否存在（相等），遇到范围查询 (&gt;、&lt;、between、like左匹配)等就不能进一步匹配了，后续退化为线性查找。</li>
+<li>因此，列的排列顺序决定了可命中索引的列数。</li>
+</ul>
+<p>如有索引 (a,b,c,d)，查询条件 a=1 and b=2 and c&gt;3 and d=4，则会在每个节点依次命中a、b、c，无法命中d。(c已经是范围查询了，d肯定是排不了序了)</p>
+<h2 id="索引常见问题"><a href="#索引常见问题" class="headerlink" title="索引常见问题"></a>索引常见问题</h2><p><strong>数据库有几千万的数据，查询⼜很慢我们怎么办？</strong></p>
+<p>加索引</p>
+<p><strong>索引有哪些数据结构？</strong></p>
+<p>Hash、B+</p>
+<p><strong>为什么哈希表、完全平衡二叉树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？</strong></p>
+<p>哈希表的特点就是可以快速的精确查询，但是不支持范围查询。</p>
+<p><strong>Hash表在哪些场景比较适合？</strong></p>
+<p>等值查询的场景，就只有KV（Key，Value）的情况，例如Redis、Memcached等这些NoSQL的中间件。</p>
+<p><strong>你说的是无序的Hash表，那有没有有序的数据结构？</strong></p>
+<p>有序数组：等值查询的和范围查询的时侯都很好，</p>
+<p>有序的适合静态数据，因为如果我们新增、删除、修改数据的时候就会改变他的结构。比如你新增一个，那在你新增的位置后面所有的节点都会后移，成本很高。</p>
+<p>可以用来做静态存储引擎啊，用来保存静态数据，例如你2019年的支付宝账单，2019年的淘宝购物记录等等都是很合适的，都是不会变动的历史数据</p>
+<p><strong>那二叉树呢？</strong></p>
+<p>二叉树是有序的，所以是支持范围查询的。但是他的时间复杂度是O(log(N))，为了维持这个时间复杂度，更新的时间复杂度也得是O(log(N))，那就得保持这棵树是完全平衡二叉树了</p>
+<p><strong>如果用B树呢？</strong></p>
+<p>可以发现同样的元素，B树的表示要比完全平衡二叉树要“矮”，原因在于B树中的一个节点可以存储多个元素。B树其实就已经是一个不错的数据结构，用来做索引效果还是不错的。</p>
+<p><strong>那为啥没用B树，而用了B+树？</strong></p>
+<p>我们可以发现同样的元素，B+树的表示要比B树要“胖”，原因在于B+树中的非叶子节点会冗余一份在叶子节点中，并且叶子节点之间用指针相连。</p>
+<p><strong>那么B+树到底有什么优势呢？</strong></p>
+<p>而B+树是B树的升级版，只是把非叶子节点冗余一下，这么做的好处是为了提高范围查找的效率。提高了的原因也无非是会有指针指向下一个节点的叶子节点</p>
+<p>Mysql选用B+树这种数据结构作为索引，可以提高查询索引时的磁盘IO效率，并且可以提高范围查询的效率，并且B+树里的元素也是有序的</p>
+<p>b+树中的主键索引和普通索引的叶子结点有啥区别<br>b+树中的主键索引和唯一索引的叶子结点的区别</p>
+<p>MySQL索引种类，如何指定日期范围以内的记录数</p>
+<p>如果表中有一个字段，如手机号是唯一的，怎么建立索引</p>
+<h1 id="事务（Transaction）"><a href="#事务（Transaction）" class="headerlink" title="事务（Transaction）"></a>事务（Transaction）</h1><h2 id="什么是事务？"><a href="#什么是事务？" class="headerlink" title="什么是事务？"></a><strong>什么是事务？</strong></h2><p>事务是数据库区别于文件系统的重要特性之一。</p>
+<h2 id="引入事务的目的"><a href="#引入事务的目的" class="headerlink" title="引入事务的目的"></a>引入事务的目的</h2><p>引入事务的主要目的：事务会把数据库从一种一致性状态转换为另一种一致性状态。</p>
+<h2 id="ACID特性"><a href="#ACID特性" class="headerlink" title="ACID特性"></a>ACID特性</h2><p>InnoDB存储引擎的事务完全符合ACID的特性：</p>
+<ul>
+<li><p><strong>原子性</strong>（atomicity）</p>
+<p>原子性是指整个数据库事务是不可分割的工作单位。只有使事务中所有的数据库操作都执行成功，才算整个事务成功。事务中任何一个SQL语句执行失败，已经执行成功的SQL语句也必须撤销，数据库状态应该退回到执行事务前的状态。</p>
+</li>
+<li><p><strong>一致性</strong>（consistency）</p>
+<p>一致性指事务将数据库从一种状态转变为下一种一致的状态。在事务开始前和事务结束以后，数据库的完整性约束没有被破坏。</p>
+</li>
+<li><p><strong>隔离性</strong>（isolation）</p>
+<p>隔离性，也被称为并发控制（concurrency control）、可串行化（serializability）、锁（locking）等。</p>
+<p>事务的隔离性要求每个读写事务的对象对其他事务的操作对象能相互分离，即该事务提交前对其他事务都不可见。</p>
+<p><strong>粒度锁策略</strong>允许事务仅锁住一个实体对象的子集，以此来提高事务之间的并发性。</p>
+</li>
+<li><p><strong>持久性</strong>（durability）</p>
+<p>事务一旦提交，其结果就是永久的。</p>
+<p>持久性保证事务系统的高可靠性（High Reliability），而不是高可用性（High Availability）。</p>
+</li>
+</ul>
+<h2 id="事务的分类"><a href="#事务的分类" class="headerlink" title="事务的分类"></a>事务的分类</h2><p>从事务理论的角度来说，可以把事务分为以下几类：</p>
+<ul>
+<li><p>扁平事务（Flat Transactions）</p>
+<p>是事务类型种最简单的一种，也是实际生成环境种可能使用最频繁的一种。</p>
+<p>扁平事务中，所有操作都处于同一层次，由<code>BEGIN WORK</code>开始，到 <code>COMMIT WORK</code> 或 <code>ROLLBACK WORK</code> 结束，其间的操作是原子的，要么都执行，要么都回滚。</p>
+<p>主要限制是不能提交或回滚事务的某一部分，或分几个步骤提交。</p>
+</li>
+<li><p>带有保存点的扁平事务（Flat Transactions with Savepoints）</p>
+<p>除了支持扁平事务，允许事务执行过程中回滚到同一事务较早的一个状态。</p>
+<p>保存点（Save Point）用来通知系统应该记住事务当前的状态，以便当之后发生错误时，事务能回到保存点当时的状态。</p>
+<p>保存点用 <code>SAVE WORK</code> 函数来建立，通知系统记录当前的处理状态。</p>
+<p>扁平的事务隐式地设置了一个保存点，也只有这一个保存点。</p>
+<p>保存点在事务内部是递增的。</p>
+<p>保存点是易失的。</p>
+</li>
+<li><p>链事务（Chained Transactions）</p>
+<p>链事务可以视为保存点模式的一种变种。</p>
+<p>链事务的思想：在提交一个事务时，释放不需要的数据对象，将必要的处理上下文隐式地传给下一个要开始的事务。</p>
+<p>链事务与带有保存点的扁平事务的不同：</p>
+<ul>
+<li><p>链事务的回滚仅限于当前事务，即只能回复到最近的一个保存点，而带有保存点的扁平事务能回滚到任意正确的保存点。</p>
+</li>
+<li><p>两者对于锁的处理也不同。链事务在执行 COMMIT 后即释放了当前事务所持有的锁，而带有保存点的扁平事务不影响迄今为止所持有的所。</p>
+</li>
+</ul>
+</li>
+<li><p>嵌套事务（Nested Transactions）</p>
+<p>嵌套事务时一个层次结构框架。由一个<strong>顶层事务</strong>（top-level transaction）控制这各个层次的事务。顶层事务之下嵌套的事务被称为<strong>子事务</strong>，其控制着每一个局部的变换。</p>
+<p><strong>Moss对嵌套事务的定义：</strong></p>
+<ol>
+<li>嵌套事务是由若干事务组成的一棵树， 子树既可以是嵌套事务，也可以是扁平事务。</li>
+<li>处在叶节点的事务是扁平事务。但是每个子事务从根到叶节点的距离可以是不同的。</li>
+<li>位于根节点的事务称为顶层事务，其他事务称为子事务。事务的前驱称（predecessor）为父事务（parent）， 事务的下一层称为儿子事务（child）。</li>
+<li>子事务既可以提交也可以回滚。但是它的提交操作并不马上生效，除非其父事务已经提交。因此可以推论出，<strong>任何子事务都在顶层事务提交后才真正的提交。</strong></li>
+<li>树中的任意一个事务的回滚会引起它的所有子事务一同回滚，故<strong>子事务仅保留A、C、I特性，不具有D的特性</strong>。</li>
+</ol>
+<p>实际的工作是交由叶子节点来完成的，即只有叶子节点的事务才能访问数据库、发送消息、获取其他类型的资源。而高层的事务仅负责控制逻辑，决定和是调用相关的子事务。</p>
+<p>即使一个系统不支持嵌套事务，也可以通过保存点技术来模拟嵌套事务。二者的区别是：</p>
+<ul>
+<li>在恢复时采用保存点技术比嵌套传有更大的灵活性。</li>
+<li>锁的持有方面不同。使用保存点技术模拟嵌套事务时，用户无法选择哪些锁需要被子事务继承，哪些需要被父事务保留；而在嵌套查询中，不同的子事务在数据库对象上持有的锁是不同的。</li>
+</ul>
+</li>
+<li><p>分布式事务（Distrubuted Transactions）</p>
+<p>分布式事务通常是一个在分布式环境下运行的扁平事务，需要根据数据所在位置访问网络中的不同节点。</p>
+</li>
+</ul>
+<p>对于InnoDB存储引擎来说，其支持扁平事务、带有保存点的事务、链事务、分布式事务。对于嵌套事务，并不原生支持，需要通过带有保存点的事务来模拟串行的嵌套事务。</p>
+<h2 id="事务的实现"><a href="#事务的实现" class="headerlink" title="事务的实现"></a>事务的实现</h2><p>隔离性（Isolation）由锁来实现</p>
+<p>原子性（Atomicity）和持久性（Durability）由 <strong>redo log</strong>（重做日志）来保证。</p>
+<p>一致性（Consistency）由 <strong>undo log</strong> 来保证。</p>
+<h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h2><p>SQL 标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。<br><strong>Read Uncommitted（读取未提交内容）</strong></p>
+<p>Read Uncommitted 称为浏览访问（browse access），仅仅针对事务而言。</p>
+<p>在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为<strong>脏读</strong>（Dirty Read）。<br><strong>Read Committed（读取提交内容）</strong></p>
+<p>Read Commited 称为游标稳定（cursor stability）。这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。</p>
+<p>一个事务只能看见已经提交事务所做的改变。这种隔离级别也造成 <strong>不可重复读</strong>（Nonrepeatable  Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。<br><strong>Repeatable Read（可重读）</strong></p>
+<p>这是 InnoDB存储引擎的<strong>默认事务隔离级别</strong></p>
+<p>它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。</p>
+<p>不过理论上，这会导致另一个棘手的问题：<strong>幻读</strong>  （Phantom  Read）。幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的 “幻影”  行。</p>
+<p>InnoDB 和 Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency  Control）机制解决了该问题。</p>
+<p>InnoDB存储引擎在 Repeatable Read 事务隔离级别下，使用Next-Key Lock 锁的算法，避免幻读的产生。所以，InnoDB存储引擎在默认的 Reapeatable Read的事务隔离级别下已经能完全保证事务的隔离性要求，即达到 SQL 标准的 Serialiazble 隔离级别。</p>
+<p><strong>Serializable（可串行化）</strong><br>称为隔离，是SQL 和 SQL2 标准的默认事务隔离级别，是<strong>最高的隔离级别</strong>。</p>
+<p>它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="第一类丢失更新（Lost-Update）"><a href="#第一类丢失更新（Lost-Update）" class="headerlink" title="第一类丢失更新（Lost Update）"></a>第一类丢失更新（Lost Update）</h3><p>在完全未隔离事务的情况下，两个事务更新同一条数据资源，某一事务完成，另一事务异常终止，回滚造成第一个完成的更新也同时丢失 。这个问题现代关系型数据库已经不会发生。</p>
+<h3 id="脏读（Dirty-Read）"><a href="#脏读（Dirty-Read）" class="headerlink" title="脏读（Dirty Read）"></a>脏读（Dirty Read）</h3><p>A事务执行过程中，B事务读取了A事务的修改。但是由于某些原因，A事务可能没有完成提交，发生RollBack了操作，则B事务所读取的数据就会是不正确的。这个未提交数据就是脏读（Dirty Read）。</p>
+<p><strong>读取提交内容隔离级别</strong>解决脏读问题。</p>
+<h3 id="不可重复读（Nonrepeatable-Read）"><a href="#不可重复读（Nonrepeatable-Read）" class="headerlink" title="不可重复读（Nonrepeatable Read）"></a>不可重复读（Nonrepeatable Read）</h3><p>B事务读取了两次数据，在这两次的读取过程中A事务修改了数据，B事务的这两次读取出来的数据不一样。B事务这种读取的结果，即为不可重复读（Nonrepeatable Read）。</p>
+<h3 id="第二类丢失更新"><a href="#第二类丢失更新" class="headerlink" title="第二类丢失更新"></a>第二类丢失更新</h3><p>不可重复读有一种特殊情况，两个事务更新同一条数据资源，后完成的事务会造成先完成的事务更新丢失。</p>
+<p><strong>可重复读隔离级别</strong>解决第二类丢失更新和不可重复读问题。</p>
+<h3 id="幻读（Phantom-Read）"><a href="#幻读（Phantom-Read）" class="headerlink" title="幻读（Phantom Read）"></a>幻读（Phantom Read）</h3><p>B事务读取了两次数据，在这两次的读取过程中A事务添加了数据，B事务的这两次读取出来的集合不一样。</p>
+<p><strong>可串行化隔离级别</strong>解决幻读问题。</p>
+<p><img src="7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/42655-20190222000420486-835926543.png" alt="20160319184334938"></p>
+<h1 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h1><h2 id="什么是锁？"><a href="#什么是锁？" class="headerlink" title="什么是锁？"></a>什么是锁？</h2><h2 id="使用锁的目的"><a href="#使用锁的目的" class="headerlink" title="使用锁的目的"></a>使用锁的目的</h2><p>锁机制用于管理对共享资源的并发访问。</p>
+<h2 id="锁粒度"><a href="#锁粒度" class="headerlink" title="锁粒度"></a>锁粒度</h2><p>锁粒度就是通常我们所说的锁级别。</p>
+<p><strong>MySQL有三种锁的级别：页级、表级、行级</strong></p>
+<ul>
+<li>MyISAM和MEMORY存储引擎采用的是表级锁（table-level locking）</li>
+<li>BDB存储引擎采用的是页面锁（page-level locking），但也支持表级锁；</li>
+<li>InnoDB存储引擎既支持行级锁（row-level locking），也支持表级锁，但默认情况下是采用行级锁。</li>
+</ul>
+<p><strong>特性：</strong>：</p>
+<ul>
+<li>表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低。</li>
+<li>行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。</li>
+<li>页面锁：开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。</li>
+</ul>
+<p><strong>数据库引擎通常必须获取多粒度级别上的锁才能完整地保护资源。</strong> 这组多粒度级别上的锁称为<strong>锁层次结构</strong>。 例如，为了完整地保护对索引的读取，数据库引擎实例可能必须获取行上的共享锁以及页和表上的意向共享锁。</p>
+<h2 id="各存储引擎中的锁实现"><a href="#各存储引擎中的锁实现" class="headerlink" title="各存储引擎中的锁实现"></a>各存储引擎中的锁实现</h2><p>InnoDB存储引擎会在行级别上对表数据上锁。</p>
+<p>MyISAM存储引擎的锁是表锁设计。</p>
+<h2 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h2><h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><h3 id="lock-和-latch"><a href="#lock-和-latch" class="headerlink" title="lock 和 latch"></a>lock 和 latch</h3><p>lock和latch都可以被称为 ”锁“，但是两者有着截然不同的含义。此处主要关注 lock。</p>
+<p><strong>latch</strong></p>
+<p>latch一般称为闩锁（轻量级的锁），其要求的锁定的时间非常短。</p>
+<p>在 InnoDB 存储引擎中，latch又可以分为<code>mutex</code>（互斥量）和 <code>rwlock</code>（读写锁）。</p>
+<p>其目的是保证并发线程操作临界资源的正确性，并且通常没有死锁检测的机制。</p>
+<p><strong>lock</strong></p>
+<p>lock的对象是事务，用来锁定的是数据库中的对象，如表、页、行。</p>
+<p>一般lock的对象仅在事务 commit 和 rollback 后进行释放（不同事务隔离级别释放的时间可能不同）。</p>
+<p>lock是有死锁机制的。</p>
+<p><strong>lock和latch的区别</strong></p>
+<p><img src="7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/20201207103106902.png" alt="在这里插入图片描述"></p>
+<h3 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h3><p>InnoDB存储引擎实现了两种标准的行级锁：</p>
+<ul>
+<li><p>共享锁（S Lock），允许事务读一行数据。</p>
+</li>
+<li><p>排他锁（X Lock），允许事务删除或更新一行数据。</p>
+</li>
+</ul>
+<p>锁兼容（Lock Compatible）</p>
+<p>锁不兼容</p>
+<p>X锁与任何的锁都不兼容，S锁仅与S锁兼容。</p>
+<p>S锁和X锁都是行锁，兼容是指对同一记录（row）的兼容性情况。</p>
+<p>多粒度（granular）锁定：允许事务在行级上的锁和表级上的锁同时存在。</p>
+<h4 id="共享锁（读锁）"><a href="#共享锁（读锁）" class="headerlink" title="共享锁（读锁）"></a><strong>共享锁（读锁）</strong></h4><p>共享锁（S锁）：共享 (S) 用于不更改或不更新数据的操作（只读操作），如 SELECT 语句。</p>
+<p>如果事务T对数据A加上共享锁后，则其他事务只能对A再加共享锁，不能加排他锁。获准共享锁的事务<strong>只能读数据，不能修改数据</strong>。</p>
+<h4 id="排他锁（写锁）"><a href="#排他锁（写锁）" class="headerlink" title="排他锁（写锁）"></a><strong>排他锁（写锁）</strong></h4><p>排他锁（X锁）：用于数据修改操作，例如 INSERT、UPDATE 或 DELETE。确保不会同时同一资源进行多重更新。</p>
+<p>如果事务T对数据A加上排他锁后，则其他事务不能再对A加任任何类型的封锁。获准排他锁的事务<strong>既能读数据，又能修改数据</strong>。</p>
+<p>我们在操作数据库的时候，可能会由于并发问题而引起的数据的不一致性（数据冲突）</p>
+<h4 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a><strong>意向锁</strong></h4><p>将锁定的对象分为多个层次，意向锁意味着事务希望在更细粒度上进行加锁。</p>
+<p>InnoDB存储引擎中的意向锁设计比较简练，其意向锁即为表级别的锁。</p>
+<p>设计目的是为了在下一个事务中揭示下一行将被请求的锁类型。</p>
+<p>其支持两种意向锁：</p>
+<p><strong>意向共享锁（IS Lock）：</strong>事务想要获得一张表中某几行的共享锁。</p>
+<p><strong>意向排他锁（IX Lock）：</strong>事务想要获得一张表中某几行的排他锁。</p>
+<h3 id="一致性非锁定读"><a href="#一致性非锁定读" class="headerlink" title="一致性非锁定读"></a>一致性非锁定读</h3><h3 id="一致性锁定读"><a href="#一致性锁定读" class="headerlink" title="一致性锁定读"></a>一致性锁定读</h3><h3 id="自增长与锁"><a href="#自增长与锁" class="headerlink" title="自增长与锁"></a>自增长与锁</h3><h3 id="外键和锁"><a href="#外键和锁" class="headerlink" title="外键和锁"></a>外键和锁</h3><h2 id="锁的算法"><a href="#锁的算法" class="headerlink" title="锁的算法"></a>锁的算法</h2><p>Record Lock：</p>
+<p>Gap Lock：</p>
+<p>Next-Key Lock：Gap Lock + Record Lock</p>
+<h2 id="锁问题"><a href="#锁问题" class="headerlink" title="锁问题"></a>锁问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><h3 id="丢失更新"><a href="#丢失更新" class="headerlink" title="丢失更新"></a>丢失更新</h3><p>幻读</p>
+<h2 id="阻塞"><a href="#阻塞" class="headerlink" title="阻塞"></a>阻塞</h2><h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h2 id="锁升级"><a href="#锁升级" class="headerlink" title="锁升级"></a>锁升级</h2><ol>
+<li>进行排列。可以做排行榜应用，取TOP N操作。</li>
+</ol>
+<h2 id="并发控制-1"><a href="#并发控制-1" class="headerlink" title="并发控制"></a>并发控制</h2><p>数据库并发场景有三种，分别为：</p>
+<p>读-读：不存在任何问题，也不需要并发控制<br>读-写：有线程安全问题，可能会造成事务隔离性问题，可能遇到脏读，幻读，不可重复读<br>写-写：有线程安全问题，可能会存在更新丢失问题，比如第一类更新丢失，第二类更新丢失</p>
+<ul>
+<li><code>MVCC + 悲观锁</code><br>MVCC解决读写冲突，悲观锁解决写写冲突</li>
+<li><code>MVCC + 乐观锁</code><br>MVCC解决读写冲突，乐观锁解决写写冲突</li>
+</ul>
+<h3 id="悲观并发控制（悲观锁）"><a href="#悲观并发控制（悲观锁）" class="headerlink" title="悲观并发控制（悲观锁）"></a>悲观并发控制（悲观锁）</h3><p>在关系数据库管理系统里，悲观并发控制（悲观锁，Pessimistic Concurrency Control，PCC）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。</p>
+<p>如果一个事务执行的操作对某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
+<p>悲观并发控制主要用于数据争用激烈的环境，以及发生并发冲突时使用锁保护数据的成本要低于回滚事务的成本的环境中。</p>
+<p>悲观锁，正如其名，它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度（悲观），因此，在整个数据处理过程中，将数据处于锁定状态。 悲观锁的实现，往往依靠数据库提供的锁机制 （也只有数据库层提供的锁机制才能真正保证数据访问的排他性，否则，即使在本系统中实现了加锁机制，也无法保证外部系统不会修改数据）。</p>
+<p><strong>在数据库中，悲观锁的流程如下：</strong></p>
+<ol>
+<li>在对任意记录进行修改前，先尝试为该记录加上排他锁（exclusive locking）。</li>
+<li>如果加锁失败，说明该记录正在被修改，那么当前查询可能要等待或者抛出异常。 具体响应方式由开发者根据实际需要决定。</li>
+<li>如果成功加锁，那么就可以对记录做修改，事务完成后就会解锁了。</li>
+<li>其间如果有其他对该记录做修改或加排他锁的操作，都会等待我们解锁或直接抛出异常。</li>
+</ol>
+<p><strong>优点与不足：</strong></p>
+<p>悲观并发控制实际上是 “ 先取锁再访问 “ 的保守策略，为数据处理的安全提供了保证。</p>
+<p>不足：</p>
+<p>在效率方面，处理加锁的机制会让数据库产生额外的开销，还有增加产生死锁的机会；</p>
+<p>在只读型事务处理中由于不会产生冲突，也没必要使用锁，这样做只能增加系统负载；</p>
+<p>降低了并行性，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数</p>
+<h3 id="乐观并发控制（乐观锁）"><a href="#乐观并发控制（乐观锁）" class="headerlink" title="乐观并发控制（乐观锁）"></a>乐观并发控制（乐观锁）</h3><p>在关系数据库管理系统里，乐观并发控制（乐观锁，Optimistic Concurrency Control，OCC）是一种并发控制的方法。</p>
+<p>它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。</p>
+<p>乐观锁假设认为数据一般情况下不会造成冲突，所以在数据进行提交更新的时候，才会正式对数据的冲突与否进行检测，如果发现冲突了，则让返回用户错误的信息，让用户决定如何去做。</p>
+<p><strong>乐观锁的实现：</strong></p>
+<p>相对于悲观锁，在对数据库进行处理的时候，<strong>乐观锁并不会使用数据库提供的锁机制</strong>。</p>
+<p>一般的实现乐观锁的方式就是<strong>记录数据版本</strong>。</p>
+<p>数据版本，为数据增加的一个版本标识。当读取数据时，将版本标识的值一同读出，数据每更新一次，同时对版本标识进行更新。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的版本标识进行比对，如果数据库表当前版本号与第一次取出来的版本标识值相等，则予以更新，否则认为是过期数据。</p>
+<p>实现数据版本有两种方式，第一种是使用<strong>版本号</strong>，第二种是使用<strong>时间戳</strong>。</p>
+<p><strong>使用版本号实现乐观锁：</strong></p>
+<p>使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。</p>
+<p><strong>优点与不足：</strong></p>
+<p>乐观并发控制相信事务之间的数据竞争（data race）的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会产生任何锁和死锁。但如果直接简单这么做，还是有可能会遇到不可预期的结果，例如两个事务都读取了数据库的某一行，经过修改以后写回数据库，这时就遇到了问题。</p>
+<h3 id="多版本并发控制（MVCC）"><a href="#多版本并发控制（MVCC）" class="headerlink" title="多版本并发控制（MVCC）"></a>多版本并发控制（MVCC）</h3><p>多版本并发控制（MVCC，Multi-Version Concurrency Control）是一种用来解决<strong>读-写冲突</strong>的<strong>无锁并发控制</strong></p>
+<p>MySQL的大多数事务型存储引擎实现的都不是简单的行级锁。基于提升并发性能的考虑，它们一般都实现了多版本并发控制（MVCC）。</p>
+<p>可以认为MVCC是行级锁的一个变种，但是它在很多情况下避免了加锁操作，写操作也只锁定必要的行。</p>
+<p><strong>实现：</strong></p>
+<p>MVCC是通过保存数据在某个时间点的<strong>快照</strong>来实现的。</p>
+<p>不管事务需要执行多长时间，每个事务看到的数据都是一致的。</p>
+<p>根据事务开始的时间不同，每个事务对同一张表，同一时刻看到的数据可能是不一样的。</p>
+<p>不同存储引擎的MVCC实现是不同的，典型的有<strong>乐观并发控制</strong>和<strong>悲观并发控制</strong>。</p>
+<p><strong>InnoDB中的MVCC实现：</strong></p>
+<p>InnoDB的MVCC，是通过在每行记录后面保存两个隐藏的列来实现的。</p>
+<p>这两个列，一个保存了行的创建时间，一个保存了行的过期时间（或删除时间）。</p>
+<p>当然，存储的并不是实际的时间值，而是系统版本号（system version number）。每开始一个新的事务，系统版本号会自动递增。事务开始时刻的系统版本号会作为事务的版本号，用来和查询到的每行记录的版本号进行比较。</p>
+<p><strong>在Reapeatable read隔离级别下，MVCC的具体操作：</strong></p>
+<ul>
+<li><p>SELECT</p>
+<p>InnoDB会根据以下两个条件检查每行记录：</p>
+<ul>
+<li>InnoDB只查找版本早于当前事务版本的数据行（也就是，行的系统版本号 &lt;= 事务的系统版本号），这样就可以确保事务读取的行，要么是在事务开始前已经存在的，要么是事务自身插入或者修改过的。</li>
+<li>行的删除版本要么未定义，要么大于当前事务版本号。这可以确保事务读取到的行，在事务开始之前未被删除。</li>
+</ul>
+<p>只有符合上述两个条件的记录，才能返回作为查询结果。</p>
+</li>
+<li><p>INSERT</p>
+<p>InnoDB为新插入的每一行保存当前系统版本号作为行版本号。</p>
+</li>
+<li><p>DELETE</p>
+<p>InnoDB为删除的每一行保存当前系统版本号作为行删除标识。</p>
+</li>
+<li><p>UPDATE</p>
+<p>InnoDB为插入一行新记录，保存当前系统版本号作为行版本号，同时保存当前系统版本号到原来的行作为行删除标识。</p>
+</li>
+</ul>
+<p>保存这两个额外系统版本号，使大多数操作都可以不同加锁。使得读数据操作加拿大你，性能很好，并且也能保证只会读取到符合标准的行。</p>
+<p>不足之处是每行记录都需要额外的存储空间，需要做更多行检查工作，以及一些额外的维护工作。</p>
+<p>MVCC只在repeatable read 和 read committed 两个隔离级别下工作。其他两个隔离级别都和MVCC不兼容。因为 read uncommitted 总是都组最新的数据行，而不是符合当前事务版本的数据行。而 serializable则会对所有读取的行都加锁。</p>
+<h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><h2 id="InnoDB存储引擎"><a href="#InnoDB存储引擎" class="headerlink" title="InnoDB存储引擎"></a>InnoDB存储引擎</h2><p>InnoDB存储引擎是第一个完整支持ACID事务的MySQL存储引擎。</p>
+<p>特点为<strong>行锁设计</strong>、<strong>支持MVCC</strong>、<strong>支持外键</strong>、<strong>提供一致性非锁定读</strong>、被设计用来<strong>最有效地利用以及使用内存和CPU</strong>。</p>
+<h3 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h3><p>InnoDB存储引擎有多个内存块，可以认为这些内存块组成了一个大的内存池，负责以下工作：</p>
+<ul>
+<li>维护所有进程/线程需要访问的多个内部存储结构</li>
+<li>缓存磁盘上的数据，方便快速地读取，同时在对磁盘文件的数据修改之前在这里缓存。</li>
+<li>重做日志（redo log）缓冲。‘</li>
+</ul>
+<p>独占锁</p>
+<p>读锁</p>
+<p>写锁</p>
+<p>意向锁</p>
+<p>共享锁</p>
+<p>排他锁</p>
+<p>意向共享锁</p>
+<p>意向排他锁</p>
+<p>悲观锁</p>
+<p>乐观锁</p>
+<p>锁升级</p>
+<p>死锁</p>
+<p>粒度锁</p>
+<p>间隙锁</p>
+<p>锁兼容</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckp3gdqh70002poup4js9dxpv" data-title="MySQL学习笔记" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/05/25/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Spring学习笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/05/25/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">JVM学习笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/05/25/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Spring学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">MySQL学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/25/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">JVM学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 王云涛<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
