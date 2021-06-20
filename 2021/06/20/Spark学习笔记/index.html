@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="王云涛">
+  <meta name="keywords" content="">
+  
+  <title>Spark学习笔记 - notes</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>云涛</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spark学习笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-20 15:44" pubdate>
+        2021年6月20日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spark学习笔记</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1-Spark概述"><a href="#1-Spark概述" class="headerlink" title="1.Spark概述"></a>1.Spark概述</h1><h2 id="1-1什么是Spark"><a href="#1-1什么是Spark" class="headerlink" title="1.1什么是Spark"></a>1.1什么是Spark</h2><p>Spark是一种快速、通用、可扩展的大数据分析引擎，2009年诞生于加州大学伯克利分校AMPLab，2010年开源，2013年6月成为Apache孵化项目，2014年2月成为Apache顶级项目。目前，Spark生态系统已经发展成为一个包含多个子项目的集合，其中包含SparkSQL、Spark Streaming、GraphX、MLlib等子项目，Spark是基于内存计算的大数据并行计算框架。Spark基于内存计算，提高了在大数据环境下数据处理的实时性，同时保证了高容错性和高可伸缩性，允许用户将Spark部署在大量廉价硬件之上，形成集群。</p>
+<h2 id="1-2-为什么要学Spark"><a href="#1-2-为什么要学Spark" class="headerlink" title="1.2 为什么要学Spark"></a><strong>1.2</strong> 为什么要学Spark</h2><p>中间结果输出：基于MapReduce的计算引擎通常会将中间结果输出到磁盘上，进行存储和容错。出于任务管道承接的，考虑，当一些查询翻译到MapReduce任务时，往往会产生多个Stage，而这些串联的Stage又依赖于底层文件系统（如HDFS）来存储每一个Stage的输出结果。Spark是MapReduce的替代方案，而且兼容HDFS、Hive，可融入Hadoop的生态系统，以弥补MapReduce的不足。</p>
+<h2 id="1-3-Spark特点"><a href="#1-3-Spark特点" class="headerlink" title="1.3 Spark特点"></a><strong>1.3</strong> Spark特点</h2><h3 id="1-3-1-快"><a href="#1-3-1-快" class="headerlink" title="1.3.1 快"></a>1.3.1 快</h3><p>与Hadoop的MapReduce相比，Spark基于内存的运算要快100倍以上，基于硬盘的运算也要快10倍以上。Spark实现了高效的DAG执行引擎，可以通过基于内存来高效处理数据流。</p>
+<h3 id="1-3-2-易用"><a href="#1-3-2-易用" class="headerlink" title="1.3.2 易用"></a>1.3.2 易用</h3><p>Spark支持Java、Python和Scala的API，还支持超过80种高级算法，使用户可以快速构建不同的应用。而且Spark支持交互式的Python和Scala的shell，可以非常方便地在这些shell中使用Spark集群来验证解决问题的方法。</p>
+<h3 id="1-3-3-通用"><a href="#1-3-3-通用" class="headerlink" title="1.3.3 通用"></a>1.3.3 通用</h3><p>Spark提供了统一的解决方案。Spark可以用于批处理、交互式查询（Spark SQL）、实时流处理（Spark Streaming）、机器学习（Spark MLlib）和图计算（GraphX）。这些不同类型的处理都可以在同一个应用中无缝使用。Spark统一的解决方案非常具有吸引力，毕竟任何公司都想用统一的平台去处理遇到的问题，减少开发和维护的人力成本和部署平台的物力成本。</p>
+<h3 id="1-3-4-兼容性"><a href="#1-3-4-兼容性" class="headerlink" title="1.3.4 兼容性"></a>1.3.4 兼容性</h3><p>Spark可以非常方便地与其他的开源产品进行融合。比如，Spark可以使用Hadoop的YARN和Apache Mesos作为它的资源管理和调度器，器，并且可以处理所有Hadoop支持的数据，包括HDFS、HBase和Cassandra等。这对于已经部署Hadoop集群的用户特别重要，因为不需要做任何数据迁移就可以使用Spark的强大处理能力。Spark也可以不依赖于第三方的资源管理和调度器，它实现了Standalone作为其内置的资源管理和调度框架，这样进一步降低了Spark的使用门槛，使得所有人都可以非常容易地部署和使用Spark。此外，Spark还提供了在EC2上部署Standalone的Spark集群的工具。</p>
+<h1 id="2-Spark安装部署"><a href="#2-Spark安装部署" class="headerlink" title="2.Spark安装部署"></a>2.Spark安装部署</h1><h2 id="2-1-spark三种部署方式"><a href="#2-1-spark三种部署方式" class="headerlink" title="2.1 spark三种部署方式"></a>2.1 spark三种部署方式</h2><h3 id="2-2-1-standalone模式"><a href="#2-2-1-standalone模式" class="headerlink" title="2.2.1 standalone模式"></a>2.2.1 standalone模式</h3><p>与MapReduce1.0框架类似，Spark框架本身也自带了完整的资源调度管理服务，可以部署到一个集群中，而不需要依赖其他系统来为其提供资源管理调度服务，在架构的设计上，Spark与MapReduce10完全一致，都是由一个Master和若干个Slave构成，并且以槽（Slot）为资源分配单位。不同的是，Spark中的槽不再像MapReduce1.0中那样分为Map和Reduce槽，而是只设计了统以的一种槽提供给各种任务来使用。</p>
+<h3 id="2-2-2-Spark-on-Mesos模式"><a href="#2-2-2-Spark-on-Mesos模式" class="headerlink" title="2.2.2 Spark on Mesos模式"></a>2.2.2 Spark on Mesos模式</h3><p>Mesos是一种资源调度管理框架，可以为运行在它上面的Spark提供服务。</p>
+<h3 id="2-2-3-Spark-on-Yarn模式"><a href="#2-2-3-Spark-on-Yarn模式" class="headerlink" title="2.2.3 Spark on Yarn模式"></a>2.2.3 Spark on Yarn模式</h3><p>Spark可运行在Yarn上，与Hadoop进行统一部署，即“Spark on Yarn”</p>
+<h2 id="2-2部署linux环境"><a href="#2-2部署linux环境" class="headerlink" title="2.2部署linux环境"></a>2.2部署linux环境</h2><p>使用VMware Workstation 15</p>
+<p>使用两个或以上Centos 6.5</p>
+<h2 id="2-3安装JDK（更换JDK版本）"><a href="#2-3安装JDK（更换JDK版本）" class="headerlink" title="2.3安装JDK（更换JDK版本）"></a>2.3安装JDK（更换JDK版本）</h2><p><img src="Spark.assets/wps1.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p>使用JDK1.7会出现不兼容的情况，可改用JDK1.8</p>
+<p>原JDK版本为JDK1.7</p>
+<p><img src="Spark.assets/wps2.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@master hfut]# cd /home/hfut/resources/software/jdk<br><br>[root@master jdk]# cp jdk-8u172-linux-x64.tar.gz /usr/java<br><br>[root@master jdk]# cd /usr/java<br><br>[root@master java]# tar -zxvf jdk-8u172-linux-x64.tar.gz <br><br>[root@master java]# rm jdk-8u172-linux-x64.tar.gz<br></code></pre></td></tr></table></figure>
+
+<p>使用gedit配置环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@master hfut]# su hfut<br><br>[hfut@master java]$ gedit /home/hfut/.bash_profile<br></code></pre></td></tr></table></figure>
+
+<p>修改.bash_profile文件中java环境变量为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> JAVA_HOME=/usr/java/jdk1.8.0_172/<br><span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$JAVA_HOME</span>/bin:<span class="hljs-variable">$PATH</span><br></code></pre></td></tr></table></figure>
+
+<p>使改动生效命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[hfut@mater java]$ source /home/hfut/.bash_profile<br></code></pre></td></tr></table></figure>
+
+<p>测试配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[hfut@mater java]$ java -version<br></code></pre></td></tr></table></figure>
+
+<p><img src="Spark.assets/wps3.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p>修改成功</p>
+<p>在子结点中进行同样的操作</p>
+<h2 id="2-4下载Spark安装包"><a href="#2-4下载Spark安装包" class="headerlink" title="2.4下载Spark安装包"></a>2.4下载Spark安装包</h2><p>Spark下载地址 <a target="_blank" rel="noopener" href="http://spark.apache.org/downloads.html">http://spark.apache.org/downloads.html</a></p>
+<p>Spark镜像站 <a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/apache/spark/">https://mirrors.tuna.tsinghua.edu.cn/apache/spark/</a></p>
+<h2 id="2-5配置Spark"><a href="#2-5配置Spark" class="headerlink" title="2.5配置Spark"></a>2.5配置Spark</h2><h3 id="2-5-1解压安装包到指定位置"><a href="#2-5-1解压安装包到指定位置" class="headerlink" title="2.5.1解压安装包到指定位置"></a>2.5.1解压安装包到指定位置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd  ~ <br>mkdir spark <br>tar -zxvf spark-2.4.7-bin-hadoop2.6.tgz -C /home/hfut/spark<br>cd /home/hfut/spark<br></code></pre></td></tr></table></figure>
+
+<p><img src="Spark.assets/wps4.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<h3 id="2-5-2-配置Spark环境变量"><a href="#2-5-2-配置Spark环境变量" class="headerlink" title="2.5.2 配置Spark环境变量"></a>2.5.2 配置Spark环境变量</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">gedit /home/hfut/.bash_profile<br><br>export SPARK_HOME=/home/hfut/spark/spark-2.4.7-bin-hadoop2.6<br><br>export PATH=$PATH:$&#123;SPARK_HOME&#125;/bin<br></code></pre></td></tr></table></figure>
+
+<p><img src="Spark.assets/wps5.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">source /home/hfut/.bash_profile    #使环境变量生效<br>cd conf<br></code></pre></td></tr></table></figure>
+
+<p><img src="Spark.assets/wps6.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cp spark-env.sh.template spark-env.shvi spark-env.sh<br></code></pre></td></tr></table></figure>
+
+<p>在spark-env.sh配置文件中添加如下配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">export JAVA_HOME=/usr/java/jdk1.8.0_172/export PATH=$JAVA_HOME/bin:$PATHexport SPARK_MASTER_IP=masterexport SPARK_MASTER_PORT=7077<br></code></pre></td></tr></table></figure>
+
+<p> 保存退出</p>
+<h3 id="2-5-3-配置slaves文件"><a href="#2-5-3-配置slaves文件" class="headerlink" title="2.5.3 配置slaves文件"></a>2.5.3 配置slaves文件</h3><p>复制slaves.template文件至slaves</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cp slaves.template slavesvi slaves<br></code></pre></td></tr></table></figure>
+
+<p>在该slaves文件中添加子节点所在的位置（Worker节点）</p>
+<p>slave1</p>
+<p>slave2</p>
+<p>保存退出</p>
+<h3 id="2-5-4将配置好的Spark拷贝到其他节点上"><a href="#2-5-4将配置好的Spark拷贝到其他节点上" class="headerlink" title="2.5.4将配置好的Spark拷贝到其他节点上"></a>2.5.4将配置好的Spark拷贝到其他节点上</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs she">cd sparkscp -r spark-2.4.7-bin-hadoop2.6/ slave1:/home/hfut/scp -r spark-2.4.7-bin-hadoop2.6/ slave2:/home/hfut/<br></code></pre></td></tr></table></figure>
+
+
+
+<p><img src="Spark.assets/wps7.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p>Spark集群配置完毕，目前是1个Master，2个Work，在master上启动Spark集群</p>
+<p>spark-2.4.7-bin-hadoop2.6/sbin/start-all.sh</p>
+<p>启动后执行jps命令，主节点上有Master进程，其他子节点上有Work进行</p>
+<p><img src="Spark.assets/wps8.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p><img src="Spark.assets/wps9.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p>登录Spark管理界面查看集群状态（主节点）：</p>
+<p><a target="_blank" rel="noopener" href="http://node1.itcast.cn:8080/">http://master:8080/</a></p>
+<p><img src="Spark.assets/wps10.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<h1 id="3-执行Spark程序"><a href="#3-执行Spark程序" class="headerlink" title="3.执行Spark程序"></a>3.执行Spark程序</h1><h2 id="1-1执行第一个Spark程序"><a href="#1-1执行第一个Spark程序" class="headerlink" title="1.1执行第一个Spark程序"></a>1.1执行第一个Spark程序</h2><p>运行Spark示例程序</p>
+<p>./bin/run-example SparkPi 10 &gt; Sparkpilog.txt</p>
+<p><img src="Spark.assets/wps11.jpg" srcset="/img/loading.gif" lazyload alt="img"><img src="Spark.assets/wps12.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<h2 id="3-2启动Spark-Shell"><a href="#3-2启动Spark-Shell" class="headerlink" title="3.2启动Spark Shell"></a>3.2启动Spark Shell</h2><h3 id="3-2-1启动Spark-Shell"><a href="#3-2-1启动Spark-Shell" class="headerlink" title="3.2.1启动Spark Shell"></a>3.2.1启动Spark Shell</h3><p>spark-shell是Spark自带的交互式Shell程序，方便用户进行交互式编程，用户可以在该命令行下用scala编写spark程序。</p>
+<p>bin/spark-shell</p>
+<p><img src="Spark.assets/wps13.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p><strong>1.2.2</strong> 在Spark Shell中编写WordCount程序</p>
+<p>\1. 首先启动hdfs</p>
+<p>start-all.sh</p>
+<p>\2. 向hdfs上传一个文件到hdfs://master:9000/spark/words.txt</p>
+<p>hadoop fs -mkdir -p /spark/in</p>
+<p>hadoop fs -put words.txt /spark/in</p>
+<p>3.在spark shell中用scala语言编写spark程序</p>
+<p>sc.textFile(“hdfs://master:9000/spark/in/words.txt”).flatMap(_.split(“ “))</p>
+<p>.map((<em>,1)).reduceByKey(</em>+_).saveAsTextFile(“hdfs://master:9000/spark/out”)</p>
+<p><img src="Spark.assets/wps14.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<p>4.使用hdfs命令查看结果</p>
+<p>hadoop fs -ls hdfs://master:9000/spark/out/p*</p>
+<p>fs -get /spark/out</p>
+<p>vi ./out/part-00000 </p>
+<p><img src="Spark.assets/wps15.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<h3 id="3-3在Eclipse中编写WordCount程序"><a href="#3-3在Eclipse中编写WordCount程序" class="headerlink" title="3.3在Eclipse中编写WordCount程序"></a>3.3在Eclipse中编写WordCount程序</h3><p>代码如下</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">if</span> (args.length != <span class="hljs-number">3</span> )&#123;    println(<span class="hljs-string">&quot;usage is org.test.WordCount &lt;master&gt; &lt;input&gt; &lt;output&gt;&quot;</span>)    <span class="hljs-keyword">return</span> &#125; <span class="hljs-keyword">val</span> sc = <span class="hljs-keyword">new</span> <span class="hljs-type">SparkContext</span>(args(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;WordCount&quot;</span>,                           <span class="hljs-type">System</span>.getenv(<span class="hljs-string">&quot;SPARK_HOME&quot;</span>), <span class="hljs-type">Seq</span>(<span class="hljs-type">System</span>.getenv(<span class="hljs-string">&quot;SPARK_TEST_JAR&quot;</span>)))     <span class="hljs-keyword">val</span> textFile = sc.textFile(args(<span class="hljs-number">1</span>))     <span class="hljs-keyword">val</span> result = textFile.flatMap(line =&gt; line.split(<span class="hljs-string">&quot;\\s+&quot;</span>))     .map(word =&gt; (word, <span class="hljs-number">1</span>)).reduceByKey(_ + _)     result.saveAsTextFile(args(<span class="hljs-number">2</span>))<br></code></pre></td></tr></table></figure>
+
+<h1 id="4-RDD操作"><a href="#4-RDD操作" class="headerlink" title="4. RDD操作"></a>4. RDD操作</h1><h2 id="4-1-RDD概念"><a href="#4-1-RDD概念" class="headerlink" title="4.1 RDD概念"></a>4.1 RDD概念</h2><p>RDD 是 Spark 的计算模型。RDD（Resilient Distributed Dataset）叫做弹性的分布式数据集合，是 Spark 中最基本的数据抽象，它代表一个不可变、只读的，被分区的数据集。操作 RDD 就像操作本地集合一样，有很多的方法可以调用，使用方便，而无需关心底层的调度细节。</p>
+<h2 id="4-2-创建RDD"><a href="#4-2-创建RDD" class="headerlink" title="4.2 创建RDD"></a>4.2 创建RDD</h2><h3 id="4-2-1集合并行化创建"><a href="#4-2-1集合并行化创建" class="headerlink" title="4.2.1集合并行化创建"></a>4.2.1集合并行化创建</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">scala&gt; <span class="hljs-keyword">val</span> arr = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)scala&gt; <span class="hljs-keyword">val</span> rdd = sc.parallelize(arr)scala&gt; <span class="hljs-keyword">val</span> rdd = sc.makeRDD(arr)scala&gt; rdd.collect<br></code></pre></td></tr></table></figure>
+
+<p><img src="Spark.assets/wps16.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<h3 id="4-2-2外部文件系统"><a href="#4-2-2外部文件系统" class="headerlink" title="4.2.2外部文件系统"></a>4.2.2外部文件系统</h3><p>如 HDFS</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> wordrdd = sc.textFile(<span class="hljs-string">&quot;hdfs://hadoop:9000/spark/in/words.txt&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-3-RDD分区"><a href="#4-3-RDD分区" class="headerlink" title="4.3 RDD分区"></a>4.3 RDD分区</h2><p>对RDD进行操作，实际上是操作的RDD上的每一个分区，分区的数量决定了并行的数量 .</p>
+<p>默认情况下，一个application使用多少个cores，就有多少个分区</p>
+<p>使用 rdd.partitions.size 查看分区数量</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">scala&gt; rdd.partitions.size<br></code></pre></td></tr></table></figure>
+
+<p>通过转换类的算子获取的RDD默认情况下，分区的数量是不变的。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E5%88%86%E7%B1%BB%E6%80%A7%E8%83%BD%E8%AF%84%E4%BB%B7%EF%BC%88%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%92%8CROC%E6%9B%B2%E7%BA%BF%EF%BC%89/">
+                        <span class="hidden-mobile">统计建模：分类性能评价（混淆矩阵和ROC曲线）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
