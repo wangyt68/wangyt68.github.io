@@ -18,7 +18,7 @@
   <meta name="author" content="王云涛">
   <meta name="keywords" content="">
   
-  <title>统计建模：Logistic回归模型（逻辑回归） - notes</title>
+  <title>统计建模：分类性能评价（混淆矩阵和ROC曲线） - notes</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="统计建模：Logistic回归模型（逻辑回归）">
+            <span class="h2" id="subtitle" title="统计建模：分类性能评价（混淆矩阵和ROC曲线）">
               
             </span>
 
@@ -173,7 +173,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-06-20 10:57" pubdate>
+      <time datetime="2021-06-20 10:59" pubdate>
         2021年6月20日 上午
       </time>
     </span>
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      508 字
+      588 字
     </span>
   
 
@@ -225,25 +225,34 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">统计建模：Logistic回归模型（逻辑回归）</h1>
+            <h1 style="display: none">统计建模：分类性能评价（混淆矩阵和ROC曲线）</h1>
             
             <div class="markdown-body">
-              <p>Logistic回归（逻辑回归）：用量化特征预测某事发生的概率，取值范围是0到1，多用于二分类问题。</p>
-<p>$f = \frac{1}{1 + e^{-t}}$<br><img src="https://img-blog.csdnimg.cn/20200112153157115.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+              <p><em>在数据本身严重有偏的情况下，准确率很容易达到一个很高的数值，因此需要寻找另外的性能评价方法。</em></p>
+<h2 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h2><p><strong>混淆矩阵：将数据按待分的类别分组后，统计各组中模型分类或预测结果的矩阵</strong><br><img src="https://img-blog.csdnimg.cn/20200112201912818.png" srcset="/img/loading.gif" lazyload alt="二分类"></p>
 <ul>
-<li>输入t：样本特征中的线性函数</li>
-<li>几率（Odds）：设某事件发生的概率为 P，则该事件的几率为该事件发生的概率与不发生的概率之比<br>$Odds = \frac{P}{1 - P}\qquad \small Odds\in [ 0，+\infty)$</li>
-<li>可基于样本的特征构建线性函数，函数值对应时间的对数几率 $\quad log_e(\frac{P}{1-P}) = \beta_0 +\beta_1x\quad$其值域为$;\small(- \infty,+\infty)$</li>
+<li><p>总例数：$\small{Total = TP + FP + FN + TN}$</p>
+</li>
+<li><p>准确率：$\small{ACC} = \frac{TP+TN}{Total}$</p>
+</li>
+<li><p>TPR or Sen = $\frac{TP}{TP +FN}$ （真阳性率、召回率、敏感性、检出率）<br>取值 [ 0，1 ] 越接近 1 性能越好</p>
+</li>
+<li><p>TNR or Spe = $\frac{TN}{FP +TN}$ （真阴性率、特异性、选择性）<br>取值 [ 0，1 ] 越接近 1 性能越好</p>
+</li>
+<li><p>PPV or precision = $\frac{TP}{TP +FP}$ （精度、阳性预测值）<br>取值 [ 0，1 ] 越接近 1 性能越好</p>
+</li>
+<li><p>NPV = $\frac{TN}{TN +FN}$ （阴性预测值）</p>
+</li>
 </ul>
-<p>bikeshare数据集：<a target="_blank" rel="noopener" href="http://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset">http://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt<br><br>table = pd.DataFrame(&#123;<span class="hljs-string">&#x27;prob&#x27;</span>:[<span class="hljs-number">0.01</span>,<span class="hljs-number">0.2</span>,<span class="hljs-number">0.3</span>,<span class="hljs-number">0.4</span>,<span class="hljs-number">0.5</span>,<span class="hljs-number">0.6</span>,<span class="hljs-number">0.7</span>,<span class="hljs-number">0.8</span>,<span class="hljs-number">0.9</span>,<span class="hljs-number">0.99</span>]&#125;)<br>table[<span class="hljs-string">&#x27;odds&#x27;</span>]=table[<span class="hljs-string">&#x27;prob&#x27;</span>]/(<span class="hljs-number">1</span>-table[<span class="hljs-string">&#x27;prob&#x27;</span>])<br>table[<span class="hljs-string">&#x27;log-odds&#x27;</span>]=np.log(table[<span class="hljs-string">&#x27;odds&#x27;</span>])<br>plt.plot(table[<span class="hljs-string">&#x27;prob&#x27;</span>],<span class="hljs-string">&#x27;g&#x27;</span>)<br>plt.plot(table[<span class="hljs-string">&#x27;odds&#x27;</span>],<span class="hljs-string">&#x27;y&#x27;</span>)<br>plt.plot(table[<span class="hljs-string">&#x27;log-odds&#x27;</span>],<span class="hljs-string">&#x27;m&#x27;</span>)<br>plt.legend(&#123;<span class="hljs-string">&#x27;probability&#x27;</span>, <span class="hljs-string">&#x27;Odds&#x27;</span>, <span class="hljs-string">&#x27;log_odds&#x27;</span>&#125;)<br><br>plt.ylim(-<span class="hljs-number">6</span>, <span class="hljs-number">6</span>)<br></code></pre></td></tr></table></figure>
-<p>$P = \frac{e^{\beta_0+\beta_1x}}{1 + e^{\beta_0+\beta_1x}}$</p>
-<ul>
-<li>Logistic回归就是对几率作线性回归</li>
-<li>优化准则：极大化所有样本的对数似然函数</li>
-<li>对于非数值型数据：使用 one-hot 编码</li>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs python">mport pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> sklearn <span class="hljs-keyword">import</span> datasets<br><span class="hljs-keyword">from</span> scipy <span class="hljs-keyword">import</span> stats<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br>iris = datasets.load_iris()    <span class="hljs-comment">#可直接获取鸢尾花数据集</span><br><br>plt.figure(figsize=(<span class="hljs-number">12</span>,<span class="hljs-number">15</span>))<br><br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>    <span class="hljs-built_in">print</span>(n)<br>    <span class="hljs-keyword">for</span> m <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>        x=(iris.data[m*<span class="hljs-number">50</span>:m*<span class="hljs-number">50</span>+<span class="hljs-number">50</span>,n]-iris.data[m*<span class="hljs-number">50</span>:m*<span class="hljs-number">50</span>+<span class="hljs-number">50</span>,n].mean()) / iris.data[m*<span class="hljs-number">50</span>:m*<span class="hljs-number">50</span>+<span class="hljs-number">50</span>,n].std()<br>        plt.subplot(<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, n*<span class="hljs-number">3</span> + m + <span class="hljs-number">1</span>)<br>        stats.probplot(x, dist=<span class="hljs-string">&#x27;norm&#x27;</span>, plot=plt)<br>        <br>        plt.text(-<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,iris.feature_names[n])<br>        <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:<br>            plt.title(iris.target_names[m])<br>        <span class="hljs-keyword">else</span>:<br>            plt.title(<span class="hljs-string">&#x27;&#x27;</span>)<br>        <br>        plt.xlim([-<span class="hljs-number">2.5</span>,<span class="hljs-number">2.5</span>])<br>        plt.ylim([-<span class="hljs-number">2.5</span>,<span class="hljs-number">2.5</span>])<br>        plt.plot([-<span class="hljs-number">2.5</span>,<span class="hljs-number">2.5</span>],[-<span class="hljs-number">2.5</span>,<span class="hljs-number">2.5</span>],c=<span class="hljs-string">&#x27;g&#x27;</span>)<br><br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><br>X_train, X_test, Y_train, Y_test = train_test_split(iris.data, iris.target,test_size=<span class="hljs-number">0.2</span>,random_state=<span class="hljs-number">0</span>)<br><br><span class="hljs-keyword">from</span> sklearn.naive_bayes <span class="hljs-keyword">import</span> GaussianNB<br>clf=GaussianNB()<br>clf.fit(X_train, Y_train)<br>y_pred=clf.predict(X_test)<br><br>Y = pd.DataFrame(np.transpose([Y_test, y_pred]), columns=&#123;<span class="hljs-string">&#x27;true_type&#x27;</span>,<span class="hljs-string">&#x27;predict_type&#x27;</span>&#125;)<br><br><br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> confusion_matrix<br><span class="hljs-built_in">print</span>(confusion_matrix(y_pred, Y_test))<br><br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> classification_report<br><span class="hljs-built_in">print</span>(classification_report(y_pred, Y_test))<br></code></pre></td></tr></table></figure>
+
+<h2 id="线性二分类（ROC曲线进行评价）"><a href="#线性二分类（ROC曲线进行评价）" class="headerlink" title="线性二分类（ROC曲线进行评价）"></a>线性二分类（ROC曲线进行评价）</h2><ul>
+<li>可以就参数的区分性能做专门评价</li>
+<li>ROC曲线（接收者操作特征曲线）</li>
+<li>绘制方法：对同样的测试集，改变线性划分的阈值，随着阈值的改变，分类的敏感性和特异性都会改变，以敏感性为纵坐标，1-特异性为横坐标，将选取不同阈值的结果在图中以散点画出，散点连成的曲线就是ROC曲线。</li>
+<li>ROC曲线越远离45度对角线，分类性能越好。</li>
+<li>量化指标：采用曲线下面积 AUC，AUC $\in$ [ 0，1 ]<br>越靠近 1，参数线性区分性能越好；靠近 0.5 时，接近随机划分；小于 0.5 时，分类倒置。</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LogisticRegression<br><span class="hljs-keyword">from</span> sklearn <span class="hljs-keyword">import</span> metrics<br><span class="hljs-keyword">from</span> scipy <span class="hljs-keyword">import</span> stats<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><br><br>bikes= pd.read_csv(<span class="hljs-string">&#x27;E:\my_data\\bikeshare\hour.csv&#x27;</span>)feature_cols=[<span class="hljs-string">&#x27;temp&#x27;</span>]<br><br>x=bikes[feature_cols]<br>bikes[<span class="hljs-string">&#x27;above_average&#x27;</span>]=bikes[<span class="hljs-string">&#x27;cnt&#x27;</span>]&gt;=bikes[<span class="hljs-string">&#x27;cnt&#x27;</span>].mean()<br>y=bikes[<span class="hljs-string">&#x27;cnt&#x27;</span>]&gt;=bikes[<span class="hljs-string">&#x27;cnt&#x27;</span>].mean()<br><br>x_train, x_test, y_train, y_test=train_test_split(x, y)<br>logreg=LogisticRegression()<br>logreg.fit(x_train, y_train)<br><br><span class="hljs-built_in">print</span>(pd.DataFrame(np.transpose([y_test.values, logreg.predict(x_test)]), columns =&#123;<span class="hljs-string">&#x27;真实值&#x27;</span>,<span class="hljs-string">&#x27;预测值&#x27;</span>&#125;))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\n&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;分类准确率是：&#x27;</span>, logreg.score(x_test, y_test))<br><br>when_dummies=pd.get_dummies(bikes[<span class="hljs-string">&#x27;season&#x27;</span>],prefix=<span class="hljs-string">&#x27;season_&#x27;</span>)<br>when_dummies=when_dummies.iloc[:,<span class="hljs-number">1</span>:]<br><br>new_bikes=pd.concat([bikes[<span class="hljs-string">&#x27;temp&#x27;</span>], when_dummies],axis=<span class="hljs-number">1</span>)<br><br>x = new_bikes<br>x_train, x_test, y_train, y_test=train_test_split(x, y)<br>logreg=LogisticRegression()<br>logreg.fit(x_train, y_train)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;用气温、季节作为预测自变量，预测的准确率是：&#x27;</span>, logreg.score(x_test, y_test))<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -264,18 +273,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%A8%A1%E5%9E%8B/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">统计建模：朴素贝叶斯模型</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/06/20/%E6%95%B0%E6%8D%AE%E5%BB%BA%E6%A8%A1%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0/">
-                        <span class="hidden-mobile">数据建模：统计分析概述</span>
+                      <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%A8%A1%E5%9E%8B/">
+                        <span class="hidden-mobile">统计建模：朴素贝叶斯模型</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
