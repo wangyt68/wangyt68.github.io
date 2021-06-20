@@ -71,121 +71,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-统计建模：分类性能评价（混淆矩阵和ROC曲线）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E5%88%86%E7%B1%BB%E6%80%A7%E8%83%BD%E8%AF%84%E4%BB%B7%EF%BC%88%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%92%8CROC%E6%9B%B2%E7%BA%BF%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2021-06-20T02:59:04.000Z" itemprop="datePublished">2021-06-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E5%88%86%E7%B1%BB%E6%80%A7%E8%83%BD%E8%AF%84%E4%BB%B7%EF%BC%88%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%92%8CROC%E6%9B%B2%E7%BA%BF%EF%BC%89/">统计建模：分类性能评价（混淆矩阵和ROC曲线）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><em>在数据本身严重有偏的情况下，准确率很容易达到一个很高的数值，因此需要寻找另外的性能评价方法。</em></p>
-<h2 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h2><p><strong>混淆矩阵：将数据按待分的类别分组后，统计各组中模型分类或预测结果的矩阵</strong><br><img src="https://img-blog.csdnimg.cn/20200112201912818.png" alt="二分类"></p>
-<ul>
-<li><p>总例数：$\small{Total = TP + FP + FN + TN}$</p>
-</li>
-<li><p>准确率：$\small{ACC} = \frac{TP+TN}{Total}$</p>
-</li>
-<li><p>TPR or Sen = $\frac{TP}{TP +FN}$ （真阳性率、召回率、敏感性、检出率）<br>取值 [ 0，1 ] 越接近 1 性能越好</p>
-</li>
-<li><p>TNR or Spe = $\frac{TN}{FP +TN}$ （真阴性率、特异性、选择性）<br>取值 [ 0，1 ] 越接近 1 性能越好</p>
-</li>
-<li><p>PPV or precision = $\frac{TP}{TP +FP}$ （精度、阳性预测值）<br>取值 [ 0，1 ] 越接近 1 性能越好</p>
-</li>
-<li><p>NPV = $\frac{TN}{TN +FN}$ （阴性预测值）</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">mport pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> stats</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">iris = datasets.load_iris()    <span class="comment">#可直接获取鸢尾花数据集</span></span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>,<span class="number">15</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    <span class="built_in">print</span>(n)</span><br><span class="line">    <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        x=(iris.data[m*<span class="number">50</span>:m*<span class="number">50</span>+<span class="number">50</span>,n]-iris.data[m*<span class="number">50</span>:m*<span class="number">50</span>+<span class="number">50</span>,n].mean()) / iris.data[m*<span class="number">50</span>:m*<span class="number">50</span>+<span class="number">50</span>,n].std()</span><br><span class="line">        plt.subplot(<span class="number">4</span>, <span class="number">3</span>, n*<span class="number">3</span> + m + <span class="number">1</span>)</span><br><span class="line">        stats.probplot(x, dist=<span class="string">&#x27;norm&#x27;</span>, plot=plt)</span><br><span class="line">        </span><br><span class="line">        plt.text(-<span class="number">2</span>,<span class="number">2</span>,iris.feature_names[n])</span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">            plt.title(iris.target_names[m])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            plt.title(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        plt.xlim([-<span class="number">2.5</span>,<span class="number">2.5</span>])</span><br><span class="line">        plt.ylim([-<span class="number">2.5</span>,<span class="number">2.5</span>])</span><br><span class="line">        plt.plot([-<span class="number">2.5</span>,<span class="number">2.5</span>],[-<span class="number">2.5</span>,<span class="number">2.5</span>],c=<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">X_train, X_test, Y_train, Y_test = train_test_split(iris.data, iris.target,test_size=<span class="number">0.2</span>,random_state=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line">clf=GaussianNB()</span><br><span class="line">clf.fit(X_train, Y_train)</span><br><span class="line">y_pred=clf.predict(X_test)</span><br><span class="line"></span><br><span class="line">Y = pd.DataFrame(np.transpose([Y_test, y_pred]), columns=&#123;<span class="string">&#x27;true_type&#x27;</span>,<span class="string">&#x27;predict_type&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line"><span class="built_in">print</span>(confusion_matrix(y_pred, Y_test))</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> classification_report</span><br><span class="line"><span class="built_in">print</span>(classification_report(y_pred, Y_test))</span><br></pre></td></tr></table></figure>
-
-<h2 id="线性二分类（ROC曲线进行评价）"><a href="#线性二分类（ROC曲线进行评价）" class="headerlink" title="线性二分类（ROC曲线进行评价）"></a>线性二分类（ROC曲线进行评价）</h2><ul>
-<li>可以就参数的区分性能做专门评价</li>
-<li>ROC曲线（接收者操作特征曲线）</li>
-<li>绘制方法：对同样的测试集，改变线性划分的阈值，随着阈值的改变，分类的敏感性和特异性都会改变，以敏感性为纵坐标，1-特异性为横坐标，将选取不同阈值的结果在图中以散点画出，散点连成的曲线就是ROC曲线。</li>
-<li>ROC曲线越远离45度对角线，分类性能越好。</li>
-<li>量化指标：采用曲线下面积 AUC，AUC $\in$ [ 0，1 ]<br>越靠近 1，参数线性区分性能越好；靠近 0.5 时，接近随机划分；小于 0.5 时，分类倒置。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E5%88%86%E7%B1%BB%E6%80%A7%E8%83%BD%E8%AF%84%E4%BB%B7%EF%BC%88%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%92%8CROC%E6%9B%B2%E7%BA%BF%EF%BC%89/" data-id="ckq4lq27n0001v8up20gga0p8" data-title="统计建模：分类性能评价（混淆矩阵和ROC曲线）" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-统计建模：朴素贝叶斯模型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%A8%A1%E5%9E%8B/" class="article-date">
-  <time class="dt-published" datetime="2021-06-20T02:58:53.000Z" itemprop="datePublished">2021-06-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%A8%A1%E5%9E%8B/">统计建模：朴素贝叶斯模型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>贝叶斯定理：$P(C|x) = \frac{P(x|C)P(C)}{P(x)}$</p>
-<ul>
-<li>x：观察变量</li>
-<li>C：一个潜在特性</li>
-<li>$P(C|x)$：后验概率</li>
-<li>$P(C)$：先验概率</li>
-<li>$P(x|C)$：似然性 likelihood</li>
-</ul>
-<p>贝叶斯分类：最大化后验概率策略<br>对于具备 n 个特征的观测值 $x=(x_1,x_2, …,x_n)$，属于第 k 个分类的概率记为：</p>
-<p>$P(C_k|x) = P(C_k|x_1,x_2,…,x_n)$</p>
-<p>若特征间相互独立，则</p>
-<p>$P(x_i|x_{i+1},…,x_n,C_k) = P(x_i|C_k)$</p>
-<p>$P(x|C_k)P(C_k) = P(x_1|C_k)P(x_2|C_k) …P(x_n|C_k)P(C_k)$</p>
-<p>总体中 x 的发生概率是不变的，所以只需要寻找使分子最大的类别即可。因此朴素贝叶斯模型的关键在于计算第 k 类在总体中的先验概率以及第 k 类中观察到 X 时的条件概率。<br>模型|描述|构建模型的函数<br>-|-|-<br>高斯模型|在每一个中都服从高斯分布（正太分布）的连续值|sklearn.native_bayes.GaussianNB<br>Multinomial（多项式）模型|$x_i$：特征 $i$ 发生的频次； $x$：n个特征的直方图|sklearn.native_bayes.MultinomiaNB<br>Bernoulli（伯努利）模型|$x_i$：特征 $i$ 发生 / 不发生； $x$：n 个特征发生与否的二进制序列|sklearn.native_bayes.BernoulliNB</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%A8%A1%E5%9E%8B/" data-id="ckq4lq27o0002v8up87hy1612" data-title="统计建模：朴素贝叶斯模型" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-统计建模：Logistic回归模型（逻辑回归）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9ALogistic%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B%EF%BC%88%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%EF%BC%89/" class="article-date">
@@ -2119,14 +2004,6 @@
       <ul>
         
           <li>
-            <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E5%88%86%E7%B1%BB%E6%80%A7%E8%83%BD%E8%AF%84%E4%BB%B7%EF%BC%88%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%92%8CROC%E6%9B%B2%E7%BA%BF%EF%BC%89/">统计建模：分类性能评价（混淆矩阵和ROC曲线）</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%A8%A1%E5%9E%8B/">统计建模：朴素贝叶斯模型</a>
-          </li>
-        
-          <li>
             <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9ALogistic%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B%EF%BC%88%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%EF%BC%89/">统计建模：Logistic回归模型（逻辑回归）</a>
           </li>
         
@@ -2136,6 +2013,14 @@
         
           <li>
             <a href="/2021/05/25/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Spring学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">MySQL学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/25/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">JVM学习笔记</a>
           </li>
         
       </ul>
