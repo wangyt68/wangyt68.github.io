@@ -1,105 +1,234 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="王云涛">
+  <meta name="keywords" content="">
   
-  <title>MySQL学习笔记 | 我的学习笔记</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;williamjie&#x2F;p&#x2F;11187470.html https:&#x2F;&#x2F;blog.csdn.net&#x2F;madongyu1259892936&#x2F;article&#x2F;details&#x2F;98977113 概念数据库与实例数据库（database）：物理操作系统文件或其他形式文件类型的集合。 实例（instance）：MySQL数据库由后台线程以及一个共享内存区组成。数">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MySQL学习笔记">
-<meta property="og:url" content="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
-<meta property="og:site_name" content="我的学习笔记">
-<meta property="og:description" content="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;williamjie&#x2F;p&#x2F;11187470.html https:&#x2F;&#x2F;blog.csdn.net&#x2F;madongyu1259892936&#x2F;article&#x2F;details&#x2F;98977113 概念数据库与实例数据库（database）：物理操作系统文件或其他形式文件类型的集合。 实例（instance）：MySQL数据库由后台线程以及一个共享内存区组成。数">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="e:/Document/学习笔记/图片/数据库/索引创建方式.png">
-<meta property="og:image" content="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/42655-20190222000420486-835926543.png">
-<meta property="og:image" content="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/20201207103106902.png">
-<meta property="article:published_time" content="2021-05-25T03:01:29.000Z">
-<meta property="article:modified_time" content="2021-05-25T03:01:33.744Z">
-<meta property="article:author" content="王云涛">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="e:/Document/学习笔记/图片/数据库/索引创建方式.png">
-  
-    <link rel="alternate" href="/atom.xml" title="我的学习笔记" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  <title>MySQL学习笔记 - notes</title>
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
   
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
 
   
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">我的学习笔记</a>
-      </h1>
-      
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL学习笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-05-25 11:01" pubdate>
+        2021年5月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      14.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      149
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 
-      <div class="outer">
-        <section id="main"><article id="post-MySQL学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-05-25T03:01:29.000Z" itemprop="datePublished">2021-05-25</time>
-</a>
+  <main>
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      MySQL学习笔记
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/williamjie/p/11187470.html">https://www.cnblogs.com/williamjie/p/11187470.html</a></p>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL学习笔记</h1>
+            
+            <div class="markdown-body">
+              <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/williamjie/p/11187470.html">https://www.cnblogs.com/williamjie/p/11187470.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/madongyu1259892936/article/details/98977113">https://blog.csdn.net/madongyu1259892936/article/details/98977113</a></p>
 <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="数据库与实例"><a href="#数据库与实例" class="headerlink" title="数据库与实例"></a>数据库与实例</h2><p><strong>数据库</strong>（database）：物理操作系统文件或其他形式文件类型的集合。</p>
 <p><strong>实例</strong>（instance）：MySQL数据库由后台线程以及一个共享内存区组成。数据库实例才是真正用于操作数据库文件的。</p>
@@ -139,7 +268,7 @@
 <li><p>TCP/IP</p>
 <p>是在任何平台下都提供的连接方式，使用最多。</p>
 <p>这种连接方式在TCP/IP连接上建立一个基于网络的连接请求，一般情况下客户端（cline）在一台服务器上，而MySQL实例（server）在另一台服务器上，两台服务器通过过一个TCP/IP连接。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h192.168.0.101 -u wang -p</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql -h192.168.0.101 -u wang -p<br></code></pre></td></tr></table></figure>
 
 <p>在通过TCP/IP连接到MySQL实例时，MySQL数据库会查一张权限视图，用来判断发起请求的客户端IP是否允许连接到MySQL实例。</p>
 <p>该视图在MySQL架构下，表名为user。 </p>
@@ -153,7 +282,7 @@
 <p>Linux和Unix环境下可以使用UNIX域套接字。</p>
 <p>只能在MySQL数据库和客户端在同一台服务器上时使用。</p>
 <p>用户可以在配置文件中指定套接字文件的路径，如–socket=/tmp/mysql.sock。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -udavid -S /tmp/mysqql.sock</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql -udavid -S /tmp/mysqql.sock<br></code></pre></td></tr></table></figure></li>
 </ul>
 <p>如果几个配置文件中都有同一个参数，MySQL数据库会以读取到的最后一个配置文件中的参数为准</p>
 <h2 id="数据库三大范式"><a href="#数据库三大范式" class="headerlink" title="数据库三大范式"></a>数据库三大范式</h2><ul>
@@ -181,7 +310,7 @@
 <p>  也就是说：InnoDB的B+树主键索引的叶子节点就是数据文件，辅助索引的叶子节点是主键的值；而MyISAM的B+树主键索引和辅助索引的叶子节点都是数据文件的地址指针。</p>
 <ol start="4">
 <li><p><strong>InnoDB不保存表的具体行数</strong>，执行select count(*) from table时需要全表扫描。而MyISAM用一个变量保存了整个表的行数，执行上述语句时只需要读出该变量即可，速度很快（注意不能加有任何WHERE条件）。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">为什么InnoDB没有了这个变量呢？</span><br><span class="line"></span><br><span class="line">因为InnoDB的事务特性，在同一时刻表中的行数对于不同的事务而言是不一样的，因此count统计会计算对于当前事务而言可以统计到的行数，而不是将总行数储存起来方便快速查询。InnoDB会尝试遍历一个尽可能小的索引除非优化器提示使用别的索引。如果二级索引不存在，InnoDB还会尝试去遍历其他聚簇索引。</span><br><span class="line">如果索引并没有完全处于InnoDB维护的缓冲区（Buffer Pool）中，count操作会比较费时。可以建立一个记录总行数的表并让你的程序在INSERT/DELETE时更新对应的数据。和上面提到的问题一样，如果此时存在多个事务的话这种方案也不太好用。如果得到大致的行数值已经足够满足需求可以尝试SHOW TABLE STATUS</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">为什么InnoDB没有了这个变量呢？<br><br>因为InnoDB的事务特性，在同一时刻表中的行数对于不同的事务而言是不一样的，因此<span class="hljs-built_in">count</span>统计会计算对于当前事务而言可以统计到的行数，而不是将总行数储存起来方便快速查询。InnoDB会尝试遍历一个尽可能小的索引除非优化器提示使用别的索引。如果二级索引不存在，InnoDB还会尝试去遍历其他聚簇索引。<br>如果索引并没有完全处于InnoDB维护的缓冲区（<span class="hljs-keyword">Buffer </span>Pool）中，<span class="hljs-built_in">count</span>操作会比较费时。可以建立一个记录总行数的表并让你的程序在<span class="hljs-keyword">INSERT/DELETE时更新对应的数据。和上面提到的问题一样，如果此时存在多个事务的话这种方案也不太好用。如果得到大致的行数值已经足够满足需求可以尝试SHOW </span>TABLE STATUS<br></code></pre></td></tr></table></figure></li>
 <li><p><strong>MyISAM表格可以被压缩后进行查询操作</strong>。</p>
 </li>
 <li><p><strong>InnoDB支持表、行(默认)级锁，而MyISAM支持表级锁</strong>。</p>
@@ -222,8 +351,8 @@
 <li>索引的维护和创建需要时间成本，这个成本随着数据量增大而增大；</li>
 <li>构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。</li>
 </ul>
-<h2 id="索引的创建"><a href="#索引的创建" class="headerlink" title="索引的创建"></a>索引的创建</h2><p><img src="E:\Document\学习笔记\图片\数据库\索引创建方式.png" alt="f1957c4fde62f149224b19889f82ba48.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE table_name</span><br><span class="line">[col_name data type]</span><br><span class="line">[unique|fulltext]</span><br><span class="line">[index|key]</span><br><span class="line">[index_name]</span><br><span class="line">(col_name[length])</span><br><span class="line">[asc|desc]</span><br></pre></td></tr></table></figure>
+<h2 id="索引的创建"><a href="#索引的创建" class="headerlink" title="索引的创建"></a>索引的创建</h2><p><img src="E:\Document\学习笔记\图片\数据库\索引创建方式.png" srcset="/img/loading.gif" lazyload alt="f1957c4fde62f149224b19889f82ba48.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE table_name<br>[col_name data type]<br>[unique|fulltext]<br>[index|key]<br>[index_name]<br>(col_name[length])<br>[asc|desc]<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li><code>unique|fulltext</code>为可选参数，分别表示唯一索引、全文索引 </li>
@@ -361,23 +490,23 @@
 <h3 id="分形树索引"><a href="#分形树索引" class="headerlink" title="分形树索引"></a>分形树索引</h3><h2 id="索引失效的情况（SQL优化）"><a href="#索引失效的情况（SQL优化）" class="headerlink" title="索引失效的情况（SQL优化）"></a>索引失效的情况（SQL优化）</h2><p><strong>对查询进行优化,尽量避免全表扫描,避免导致索引失效</strong></p>
 <ol>
 <li><p>在where子句中进行null值判断的话会导致引擎放弃索引而产生全表扫描</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num is null</span><br><span class="line"></span><br><span class="line">在建立数据库的时候因尽量为字段设置默认值，如int类型可以使用0，varchar类型使用 &#x27;&#x27;</span><br><span class="line">当你在指定类型大小如int(11)时，其实空间就已经固定了，即使存的是null也是这个大小</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT id FROM table WHERE num is null<br><br>在建立数据库的时候因尽量为字段设置默认值，如int类型可以使用0，varchar类型使用 &#x27;&#x27;<br>当你在指定类型大小如int(11)时，其实空间就已经固定了，即使存的是null也是这个大小<br></code></pre></td></tr></table></figure></li>
 <li><p>避免在where子句中使用<code>!= ,&lt; &gt;</code>这样的符号，否则会导致引擎放弃索引而产生全表扫描。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num != 0</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT id FROM table WHERE num != 0<br></code></pre></td></tr></table></figure></li>
 <li><p>避免在where子句中使用<code>or</code>来连接条件,<strong>因为如果俩个字段中有一个没有索引的话,引擎会放弃索引而产生全表扫描</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num = 0 OR num = 1</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT id FROM table WHERE num = 0 OR num = 1<br></code></pre></td></tr></table></figure></li>
 <li><p>可以考虑使用<code>between</code>,但是只能是连续的数值</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num BETWEEN 0 AND 1</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT id FROM table WHERE num BETWEEN 0 AND 1<br></code></pre></td></tr></table></figure></li>
 <li><p>避免在where子句中使用<code>in</code>关于网上说的MySQL在使用<code>in</code>不走索引的问题,严谨的来说的话分为俩种情况</p>
 <ul>
 <li><ul>
 <li><p>走索引的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num IN (1)</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT id FROM table WHERE num IN (1)<br></code></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><ul>
 <li><p>不走索引的</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE num IN (1,2)其实在in里面,如果只有一个值的话是等价于num = 1的</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT id FROM table WHERE num IN (1,2)其实在in里面,如果只有一个值的话是等价于num = 1的<br></code></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ul>
@@ -389,7 +518,7 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> num <span class="operator">/</span> <span class="number">2</span> <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">WHERE</span> num <span class="hljs-operator">/</span> <span class="hljs-number">2</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
 <ul>
 <li><ul>
@@ -397,11 +526,11 @@
 </ul>
 </li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id FROM table WHERE SUBSTRING(name,1,2) = &#x27;wise&#x27;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT id FROM table WHERE SUBSTRING(name,1,2) = &#x27;wise&#x27;<br></code></pre></td></tr></table></figure></li>
 <li><p>在使用联合索引是要注意<strong>最左原则</strong>，例如如果当前联合索引是<code>index(a,b,c)</code>，那么如果where子句中有<code>a</code>就会用到联合索引，但是如果只用到<code>b,c</code>就会失去索引效果。</p>
 </li>
 <li><p>避免在where子句中使用<code>like</code>模糊查询。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;wise&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">WHERE</span> name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;wise&#x27;</span><br></code></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="慢查询优化"><a href="#慢查询优化" class="headerlink" title="慢查询优化"></a>慢查询优化</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32002253/article/details/86772940">https://blog.csdn.net/qq_32002253/article/details/86772940</a></p>
 <h3 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h3><p>MySQL会一直向右匹配直到遇到范围查询（&gt;,&lt;,BETWEEN,LIKE）就停止匹配。</p>
@@ -526,7 +655,7 @@
 <p><strong>可重复读隔离级别</strong>解决第二类丢失更新和不可重复读问题。</p>
 <h3 id="幻读（Phantom-Read）"><a href="#幻读（Phantom-Read）" class="headerlink" title="幻读（Phantom Read）"></a>幻读（Phantom Read）</h3><p>B事务读取了两次数据，在这两次的读取过程中A事务添加了数据，B事务的这两次读取出来的集合不一样。</p>
 <p><strong>可串行化隔离级别</strong>解决幻读问题。</p>
-<p><img src="7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/42655-20190222000420486-835926543.png" alt="20160319184334938"></p>
+<p><img src="7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/42655-20190222000420486-835926543.png" srcset="/img/loading.gif" lazyload alt="20160319184334938"></p>
 <h1 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h1><h2 id="什么是锁？"><a href="#什么是锁？" class="headerlink" title="什么是锁？"></a>什么是锁？</h2><h2 id="使用锁的目的"><a href="#使用锁的目的" class="headerlink" title="使用锁的目的"></a>使用锁的目的</h2><p>锁机制用于管理对共享资源的并发访问。</p>
 <h2 id="锁粒度"><a href="#锁粒度" class="headerlink" title="锁粒度"></a>锁粒度</h2><p>锁粒度就是通常我们所说的锁级别。</p>
 <p><strong>MySQL有三种锁的级别：页级、表级、行级</strong></p>
@@ -554,7 +683,7 @@
 <p>一般lock的对象仅在事务 commit 和 rollback 后进行释放（不同事务隔离级别释放的时间可能不同）。</p>
 <p>lock是有死锁机制的。</p>
 <p><strong>lock和latch的区别</strong></p>
-<p><img src="7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/20201207103106902.png" alt="在这里插入图片描述"></p>
+<p><img src="7.%E6%95%B0%E6%8D%AE%E5%BA%93.assets/20201207103106902.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h3><p>InnoDB存储引擎实现了两种标准的行级锁：</p>
 <ul>
 <li><p>共享锁（S Lock），允许事务读一行数据。</p>
@@ -679,134 +808,196 @@
 <p>间隙锁</p>
 <p>锁兼容</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckp3gdqh70002poup4js9dxpv" data-title="MySQL学习笔记" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2021/05/25/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          Spring学习笔记
-        
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/05/25/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring学习笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/05/25/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="hidden-mobile">JVM学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2021/05/25/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">JVM学习笔记</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li></ul>
     </div>
-  </div>
-
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/06/20/%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%EF%BC%9ALogistic%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B%EF%BC%88%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%EF%BC%89/">统计建模：Logistic回归模型（逻辑回归）</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/20/%E6%95%B0%E6%8D%AE%E5%BB%BA%E6%A8%A1%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0/">数据建模：统计分析概述</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/25/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Spring学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/25/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">MySQL学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/25/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">JVM学习笔记</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
 
-  
-</aside>
-        
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 王云涛<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
   </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
 </footer>
 
-    </div>
-    <nav id="mobile-nav">
+
+  <!-- SCRIPTS -->
   
-    <a href="/" class="mobile-nav-link">Home</a>
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    <script  src="/js/img-lazyload.js" ></script>
   
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
-<script src="/js/script.js"></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
 
 
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
 </body>
 </html>
