@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>云涛</title>
+  <title>我的学习笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta property="og:type" content="website">
-<meta property="og:title" content="云涛">
+<meta property="og:title" content="我的学习笔记">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="云涛">
+<meta property="og:site_name" content="我的学习笔记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="王云涛">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="云涛" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="我的学习笔记" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -42,7 +42,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">云涛</a>
+        <a href="/" id="logo">我的学习笔记</a>
       </h1>
       
     </div>
@@ -70,6 +70,324 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-数据建模：统计分析概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/06/20/%E6%95%B0%E6%8D%AE%E5%BB%BA%E6%A8%A1%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-06-20T02:50:48.000Z" itemprop="datePublished">2021-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/06/20/%E6%95%B0%E6%8D%AE%E5%BB%BA%E6%A8%A1%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0/">数据建模：统计分析概述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><del><em>本文为学习黄晓林老师开设的慕课《探索数据的奥秘》所作笔记</em></del> </p>
+<h2 id="数据科学简介"><a href="#数据科学简介" class="headerlink" title="数据科学简介"></a>数据科学简介</h2><p><code>现时代科学范式正在转变，继实验、理论与计算之后，数据科学已成为人类探索世界的第四科学范式。工业界对数据科学的关注在应用层面，更关注相关性而非因果性。</code></p>
+<h4 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h4><p>数据传感器采集到的各种物理、生物、化学指标等等可记录、可表征的数量、性质都是数据，对于行为的描述与记录也能构成数据，例如互联网上的一次次交易，访问。总之，现实中某种事物或事物间关系数量或性质的表征和记录，都称之为数据，数据是信息的载体。</p>
+<h4 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h4><p>有观点认为，当数据量大到需要使用并行计算工具处理时，就称之为大数据（Big Data）。通常认为大数据有4V特点，即体量大（High Volume）、速度快时效高（High Velocity）、类型繁多（High Variety）、价值密度低（High Veracity）</p>
+<p>1993年，美国学者挨个拉沃提出了Aprior算法，可以通过分析购物篮中的商品几何，找出商品间关系，然后研究或推测顾客的购买行为，沃尔玛将其引入pos机数据分析，发现一些看似毫无关联的商品，例如啤酒和尿布经常出现在同一购物车中，即两者具有相关性。</p>
+<h4 id="数据科学"><a href="#数据科学" class="headerlink" title="数据科学"></a>数据科学</h4><p>应用科学的方法、流程、算法和系统从多种形式的结构化或非结构化数据中提取知识和洞见的交叉学科。所有对数据的搜集，存储，分类，处理，分析，呈现都可纳入数据科学的范畴。</p>
+<h4 id="数据科学项目克可能涉及的人员："><a href="#数据科学项目克可能涉及的人员：" class="headerlink" title="数据科学项目克可能涉及的人员："></a>数据科学项目克可能涉及的人员：</h4><table>
+<thead>
+<tr>
+<th>人员</th>
+<th>定位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>项目出资方</td>
+<td>商业利益，提供项目支持</td>
+</tr>
+<tr>
+<td>客户（或用户）</td>
+<td>最终用户利益（领域专家）</td>
+</tr>
+<tr>
+<td>数据架构师</td>
+<td>管理数据和数据存储</td>
+</tr>
+<tr>
+<td>运营工程师</td>
+<td>管理基础设施和部署最终成果</td>
+</tr>
+<tr>
+<td>数据科学家（核心人员）</td>
+<td>设定和执行分析战略</td>
+</tr>
+</tbody></table>
+<h2 id="一、明确问题及制定目标"><a href="#一、明确问题及制定目标" class="headerlink" title="一、明确问题及制定目标"></a>一、明确问题及制定目标</h2><p>用户层面<br>针对用户的具体问题，应做好充足的背景调查，从而制定出相应的用户层面的目标。<br>数据科学层面：可将问题抽象为分类、预测、排名或打分、关联化、特征提取、聚类等。<br>类型|描述<br>-|-<br>分类|对于给定的数据，依据一定的规则进行两个或两个以上的类别划分，输出为针对输入的数据所分配的类别标签。例如：真/假，类别A / 类别B / 类别C /……<br>预测|基于一直数据对将来的状态作出估计或判断，输出为连续的数量值或类别标签<br>排名 (打分)|对于实体的某种属性或响应进行数量化描述或进行排序<br>关联化 去关联化|在尸体的众多特征种，寻找有相互关联的特征以便相互替代，从而实现特征的相互“解释”或数据降维；而对于非关联的特征则需予以保留以实现对样本的全面描述<br>特征提取|基于实体的众多特征，构造最反应目标的，或最能知识某种分类的复合特征<br>聚类|根据样本间的相似度将样本分组</p>
+<h2 id="二、数据搜集与准备"><a href="#二、数据搜集与准备" class="headerlink" title="二、数据搜集与准备"></a>二、数据搜集与准备</h2><h4 id="前提假设和数据构成"><a href="#前提假设和数据构成" class="headerlink" title="前提假设和数据构成"></a>前提假设和数据构成</h4><p>明确必要的前提假设，基于假设的前提来设计数据的构成，明确总体和抽样方案再搜集数据。</p>
+<p>在面向实际应用时，始终不能忘记方案的可行性分析，不同的假设很可能会涉及不同的数据，最终导致不同的研究内容。因此，在真正进行数据搜集之前，应认真审视与事实最符合的假设，根据最符合事实的假设提出对应的数据方案，思考方案的可行性，确定数据的构成。</p>
+<p>通常，后续方便处理的数据是 ” 结构化 “ 的数据（可将其抽象的理解为一张二维表，一行对应一个样本，一列对应一个属性）</p>
+<h4 id="总体和抽样"><a href="#总体和抽样" class="headerlink" title="总体和抽样"></a>总体和抽样</h4><p>总体（Population）：待研究对象的全体<br>个体（Individual）：总体中的每一个对象<br>样本：在无法获得总体的情况下，从总体中抽取出来的子集<br>样本容量：样本包含的个体数量</p>
+<ul>
+<li>数据收集是一种从总体中抽样的过程</li>
+<li>样本容量不能太小，传统统计学认为小于30的样本容量不具备统计学意义</li>
+<li>抽样时不能有预设偏见，也就是必须无偏抽样，即抽样的过程不受个体性质的影响。</li>
+<li>抽样偏差指从总体中非随机型抽样带来的系统性错误，幸存者偏差就是一种常见的抽样偏差</li>
+<li>避免抽样偏差常见的作法是随机抽样。随机抽样是指总体中的个体是否被抽样并非是确定的（即，不因为个体的某个或某些性质一定被抽中或一定不被抽中），而是以一定的概率被抽样</li>
+</ul>
+<h4 id="混杂因素和A-B-Testing"><a href="#混杂因素和A-B-Testing" class="headerlink" title="混杂因素和A/B Testing"></a>混杂因素和A/B Testing</h4><p><strong>辛普森悖论：</strong> 人们尝试探究两种变量（比如新生录取率与性别）是否具有相关性的时候，会分别对之进行分组研究。然而，在分组比较中都占优势的一方，在总评中有时反而是失势的一方。<br><strong>常见的排除混杂因素影响的做法：</strong> 对两相比较的样本集，做好潜在混杂因素（甚至所有非考察因素）的匹配。</p>
+<ul>
+<li>对于关联任务而言，混杂因素的排除是关键</li>
+</ul>
+<p><strong>A/B Testing：</strong> 指专门设计一些对比试验，在其他所有特征都匹配（或一致）的情况下，只观察一个变量的不同取值对于结果的影响。科学研究中，在实验室的可控环境下，A/B Testing 是一种非常常见的实验手段，例如 “ 双盲实验 ” 。主动搜集数据时，A/B Testing 是一种可靠而有效的方式。</p>
+<h2 id="三、使用python进行数据导入"><a href="#三、使用python进行数据导入" class="headerlink" title="三、使用python进行数据导入"></a>三、使用python进行数据导入</h2><p><strong>NumPy.load_txt()</strong></p>
+<ul>
+<li>将指定文件中的数据加载到数组</li>
+<li>支持纯文本文件，如 txt 文件和 csv 文件</li>
+<li>返回 NumPy 的 ndarray 多维数组</li>
+<li>一般用来加载数据类型一直的数据文件<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x = np.loadtxt(<span class="string">&#x27;E:\my_data.csv&#x27;</span>, delimiter=<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line"><span class="comment">#查看导入数据的规模</span></span><br><span class="line"><span class="built_in">print</span>(x.shape)	</span><br><span class="line"><span class="comment">#ndarray的二维切取</span></span><br><span class="line">x[:<span class="number">2</span>,:<span class="number">3</span>]	</span><br><span class="line"><span class="comment">#指定导入的数据类型为int</span></span><br><span class="line">x_int = np.loadtxt(<span class="string">&#x27;E:\my_data.csv&#x27;</span>, delimiter=<span class="string">&#x27;,&#x27;</span>, dtype=<span class="built_in">int</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>Pandas.read_csv()</strong></p>
+<ul>
+<li>面对数据并不统一的电子表格数据</li>
+<li>将电子表格文件中的数据导入到 Pandas 的 DataFrame 结构（二维表格结构）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment">#header=None表示没有表头</span></span><br><span class="line"><span class="comment">#names参数：为表格的各列设置列标题</span></span><br><span class="line">data = pd.read_csv(<span class="string">&#x27;E:\my_data.csv,</span></span><br><span class="line"><span class="string">	header=None, names=[&#x27;</span>A<span class="string">&#x27;,&#x27;</span><span class="string">B&#x27;,&#x27;</span>C<span class="string">&#x27;,&#x27;</span>D<span class="string">&#x27;,&#x27;</span>E<span class="string">&#x27;])</span></span><br><span class="line"><span class="string">#可以使用data.values访问表格中存放的数据，为ndarray类型</span></span><br><span class="line"><span class="string">print(data.values)</span></span><br></pre></td></tr></table></figure>
+<p><strong>Python自带模块urllib 可用于网上在线获取文件</strong></p>
+<ul>
+<li>urllib.request.urlopen()</li>
+</ul>
+<p><strong>CountVectorizer实现非结构化数据转化为结构化数据</strong><br>非结构化数据一般通过结构化处理使其成为表格，方便后续的分析与建模</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用fetch_20newsgroups函数可以自动下载数据到 </span></span><br><span class="line"><span class="comment">#[Currentuser]\scikit_learn_data 下面</span></span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> fetch_20newsgroups</span><br><span class="line"><span class="comment">#下载医学新闻数据集</span></span><br><span class="line">my_news=fetch_20newsgroup(categories[<span class="string">&#x27;sci.med&#x27;</span>]) </span><br><span class="line"><span class="built_in">print</span>(twenty_sci_news_data[<span class="number">0</span>], <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#CountVectorizer是属于常见的特征数值计算类，是一个文本特征提取方法</span></span><br><span class="line"><span class="comment">#对于每一个训练文本，它只考虑每种词汇在该训练文本中出现的频率。</span></span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line">count_vect=CountVectorizer()</span><br><span class="line"><span class="comment">#通过fit_transform函数计算各个词语出现的次数，返回一个稀疏矩阵对象</span></span><br><span class="line">word_count=count_vect.fittransform(my_news.data)	</span><br></pre></td></tr></table></figure>
+
+<p><strong>对大规模数据的读取</strong></p>
+<ul>
+<li><p>以连续流的方式流入，而非一次性加载</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pands <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment">#规定chunksize后返回的数据类型不再是DataFrame</span></span><br><span class="line"><span class="comment">#而是一个可迭代的TextFileReader对象</span></span><br><span class="line"><span class="comment">#它保存了若干个chunk的尺寸和位置</span></span><br><span class="line"><span class="comment">#但只有当被迭代器指到时，才会真正把对应的数据读入内存</span></span><br><span class="line">my_chunk=pd.read_csv(<span class="string">&#x27;E:\my_data.csv&#x27;</span>, header=<span class="literal">None</span>,</span><br><span class="line">				names=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>,<span class="string">&#x27;E&#x27;</span>],</span><br><span class="line">				chunksize=<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n,chunk <span class="keyword">in</span> <span class="built_in">enumerate</span>(my_chunk):</span><br><span class="line">	<span class="built_in">print</span>(chunk.shape)</span><br><span class="line">	<span class="keyword">if</span> n &lt;= <span class="number">2</span>:</span><br><span class="line">		<span class="built_in">print</span>(chunk)	<span class="comment">#每一个chunk都是一个DataFrame</span></span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#get_chunk()方法是当前位置获取指定大小的数据块</span></span><br><span class="line">	<span class="comment">#会改变迭代器指针</span></span><br><span class="line">	<span class="comment">#if n &lt;= 2:</span></span><br><span class="line">	<span class="comment">#	print(my_chunk.get_chunk(1),&#x27;\n&#x27;)</span></span><br></pre></td></tr></table></figure></li>
+<li><p>csv 包中的 reader 函数和 DictReader 函数 可以实现小块数据的迭代</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="comment">#with命令保证以下代码执行完后文件会关闭</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;E:\my_data.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> my_data_stream:</span><br><span class="line"><span class="comment">#用csv.reader读取文件，一次读取一行，作为列表对象</span></span><br><span class="line">	my_reader=csv.reader(my_data_stream,dialect=<span class="string">&#x27;excel&#x27;</span>)</span><br><span class="line">	<span class="keyword">for</span> n,row <span class="keyword">in</span> enumrate(my_reader)<span class="string">&quot;</span></span><br><span class="line"><span class="string">	if n &lt;= 5:</span></span><br><span class="line"><span class="string">		print(row, &#x27;\n&#x27;)</span></span><br><span class="line"><span class="string">		</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="四、探索性数据分析（EDA）"><a href="#四、探索性数据分析（EDA）" class="headerlink" title="四、探索性数据分析（EDA）"></a>四、探索性数据分析（EDA）</h2><ul>
+<li>初步了解数据集</li>
+<li>验证初步假设</li>
+</ul>
+<p> <strong>数据检查和预处理</strong></p>
+<ul>
+<li>数据检查 ：数据的规模与特征的数据类型及意义</li>
+<li>预处理：缺失处理、异常处理、冗余处理</li>
+</ul>
+<p>数据的类型：数值型数据、字符型数据、逻辑型数据（bool型数据）、排序类型<br>（依据某个量度得到的，具备一定的量化意义）</p>
+<p>对于数值型数据，可以用算术平均，标准差等量化统计量进行分析。<br>对于非数值型数据，主要依据它们进行分组与筛选。</p>
+<p> <strong>数据的初步分析</strong></p>
+<ol>
+<li>缺失数据：用 NaN 表示</li>
+</ol>
+<ul>
+<li>数据随机性缺失<ul>
+<li>直接丢弃：dataframe.dropna函数（样本容量大，缺失信息少）</li>
+<li>修补填充：dataframe.fillna函数（样本容量小，无法承受进一步缺失）    缺失值填充是一种止损手段，可以将原本不完整数据行中的其他信息利用起来，从而避免了有效信息的进一步损失。</li>
+</ul>
+</li>
+<li>非随机性缺失：具体情况具体分析</li>
+</ul>
+<ol start="2">
+<li>数据混则了噪声、干扰，甚至错误数据。应基于数据的实际意义，利用常识或专业领域知识进行判断。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">my_dict=&#123;<span class="string">&#x27;A&#x27;</span>:<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;2&#x27;</span>&#125;	<span class="comment">#A列填充为1，B列填充为2</span></span><br><span class="line">my_fill_data3=my_data.fillna(my_dict)</span><br><span class="line"></span><br><span class="line">my_fill_data4=my_data.fillna(method=<span class="string">&#x27;ffill) #使用缺失值之前的邻近值进行填充</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">my_fill_data4=my_data.fillna(method=&#x27;</span>bfill) <span class="comment">#使用缺失值之后的邻近值进行填充</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于服从正态分布的数据：z-score<br>z-score 是个无量纲的数，可以消除数据本身的取值范围带来的影响。一般认为z-score &gt; 3 时，可以怀疑异常。</li>
+<li>对于不服从正态分布的数据：四分位距<br>q1：第一个四分位数<br>q3：第三个四分位数<br>△ = q3 - q1：四分位距<br>x &gt; q3 + 3△ 或 x &lt; q1 - 3△：认为是极端异常值或离群值outlier</li>
+<li>对于异常值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>处理方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>确定是出错的数据</td>
+<td>丢弃或替换</td>
+</tr>
+<tr>
+<td>不能肯定是错误</td>
+<td>增加样本容量</td>
+</tr>
+<tr>
+<td>3. 数据冗余</td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>处理方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据列直接重复</td>
+<td>直接通过列名称或特征名筛选</td>
+</tr>
+<tr>
+<td>不同特征出现冗余</td>
+<td>如果一个特征可以通过将另一个线性特征变换得到，那么这两个特征就是重复的，可以去掉一个。</td>
+</tr>
+<tr>
+<td>判断特征冗余常用方法：线性相关分析</td>
+<td></td>
+</tr>
+<tr>
+<td>Dataframe.corr函数</td>
+<td></td>
+</tr>
+<tr>
+<td>当参数 method=‘pearson’ 时，直接求线性相关系数</td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li>线性相关系数接近 1 或 -1 ，则说明两个特征存在强的线性相关或反相关，有着较大的冗余</li>
+<li>线性相关系数等于 0， 两个特征间没有线性相关性</li>
+</ul>
+<p><strong>描述性统计</strong><br>描述性统计不对数据做任何预先地猜想，实事求是地告诉我们样本数据是怎样的。在描述性的结果上进行思考可以形成一些初步的结论。</p>
+<ul>
+<li><strong>位置性测度计算</strong></li>
+</ul>
+<p>位置性测度主要用来反映样本集合的中心成员或特定成员在所考察的数域或空间的位置。只能针对数值数据计算。</p>
+<table>
+<thead>
+<tr>
+<th>常用的位置测度</th>
+<th>定义</th>
+<th>特点</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>算术平均（arithmetic mean）</td>
+<td>对所有考察的样本值求统计平均</td>
+<td>易受极端值影响</td>
+<td>dataframe.mean()</td>
+</tr>
+<tr>
+<td>中位数（median）</td>
+<td>将所有样本按数值从小到大或从大到小排序后，最中间位置的一个数，或者两个数的平均</td>
+<td>对极端值不敏感，但对中位数以外的所有值也都不敏感</td>
+<td>dataframe.median()</td>
+</tr>
+<tr>
+<td>p 百分位数（quantiles）</td>
+<td>将所有样本值按从小到大的顺序拍好，排序在第 p% 的样本取值</td>
+<td>第 p 个百分位数记为 Vp，则样本中有且仅有 p% 的观察值小于等于 Vp</td>
+<td>dataframe.quantiles(q=0.25)</td>
+</tr>
+<tr>
+<td>众数（mode）</td>
+<td>样本集中出现次数最多的值</td>
+<td>众数可能只有一个，也可能有多个</td>
+<td>dataframe.mode()</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">常用的 p 百分位数：</span><br><span class="line">- 第10百分位数</span><br><span class="line">- 第25百分位数（第一四分位数）</span><br><span class="line">- 第50百分位数（中位数）</span><br><span class="line">- 第75百分位数（第三四分位数）</span><br><span class="line">- 第90百分位数</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>离散性测度计算</strong><br>只能针对数值数据计算</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用离散性测度</th>
+<th>描述</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>极差（range）</td>
+<td>指集合中最大与最小值之间的差异，对极端值非常敏感</td>
+<td>max() - min()</td>
+</tr>
+<tr>
+<td>方差（variance）</td>
+<td>对集合中所有样本值相对于均值的偏差的平方求近似平均</td>
+<td>var()</td>
+</tr>
+<tr>
+<td>标准差（Standard Deviation）</td>
+<td>方差的平方根称为标准差，方差和标准差可以总体衡量集合中数据偏离均值的程度</td>
+<td>std()</td>
+</tr>
+<tr>
+<td>变异系数（coefficient of variation, CV）</td>
+<td>无量纲，能尽量消除单位及均值的绝对位置带来的影响。</td>
+<td>std() / mean()</td>
+</tr>
+</tbody></table>
+<p>describe函数：对dataframe中所有用数值保存的特征（无论是整数还是浮点数），一次性计算多个常用的描述性统计量</p>
+<ul>
+<li><strong>图形化描述</strong><br>既适用于数值型数据，也适用于非数值型数据的计算</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用图形</th>
+<th>描述</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直方图</td>
+<td>将数据分组，记录样本在每个组中出现的频数</td>
+<td>hist函数</td>
+</tr>
+<tr>
+<td>箱型图</td>
+<td>通过几个重要的百分位数来界定数据的主要分布，下边缘为 q1，上边缘为 q3，箱子的中线代表中位数，箱子两端伸出的虚线用来刻画极差，超出上下边缘的被当作异常值或outlier离群点</td>
+<td>boxplot函数</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>非数值型的特征</strong><br>主要应用来分组，从而对各组进行频次统计，绘制与直方图类似的柱状图<br>利用 dataframe.groupby 函数进行分组</li>
+</ul>
+<ul>
+<li><strong>两个数值型特征相结合</strong><br>简单的图形化方法为二维散点图，其绘制方法为： 用样本在一个特征上的取值作为横轴，在另一个要关联考察的特征上的取值作为纵轴，这样在二维平面上确定下该样本的位置，描绘出一个样本点。<br>可以采用 pandas.plotting.scatter_matrix 对两个数值型特征绘制散点图。</li>
+</ul>
+<h2 id="统计建模（统计推断）"><a href="#统计建模（统计推断）" class="headerlink" title="统计建模（统计推断）"></a>统计建模（统计推断）</h2><p>实质：由样本去推断总体的过程<br>主要包括：参数估计和假设检验</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> stats</span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">1234</span>)</span><br><span class="line"><span class="comment">#生成一个规定均值的泊松分布</span></span><br><span class="line">my_data1=stats.poisson.rvs(loc=<span class="number">10</span>,mu=<span class="number">60</span>,size=<span class="number">3000</span>) </span><br><span class="line">pd.Series(my_data1).hist().get_figure().show</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">my_data2=stats.poisson.rvs(loc=<span class="number">10</span>,mu=<span class="number">15</span>,size=<span class="number">6000</span>) </span><br><span class="line">pd.Series(my_data2).hist().get_figure().show</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成一个典型的bi-mode分布，以这9000个数据作为总体</span></span><br><span class="line">my_data=np.comcatemate(my_data1, my_data2)</span><br><span class="line"><span class="comment">#随机抽取100个作为样本</span></span><br><span class="line">sample_data=np.random.choice(a=my_data,size=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">sample_size=<span class="number">100</span></span><br><span class="line">sample=np.random.choice(a=my_data,size=sample_size)</span><br><span class="line">sigma=sample.std()/(sample_size)**<span class="number">0.5</span></span><br><span class="line"></span><br><span class="line">stats.t.interval(alpha=<span class="number">0.95</span>,	<span class="comment">#置信水平</span></span><br><span class="line">				df=sample_size-<span class="number">1</span>,</span><br><span class="line">				loc=sample.mean(),</span><br><span class="line">				scale=sigma)</span><br></pre></td></tr></table></figure>
+<p><strong>假设检验</strong></p>
+<ol>
+<li>提出假设</li>
+<li>验证是否可以接受假设</li>
+</ol>
+<p>零假设（null hypothesis）：H0，需要检验的假设，如：</p>
+<ul>
+<li>总体的均值等于μ</li>
+<li>测试组和对照组来源于均值相等的总体</li>
+<li>控制因素对观察变量有没有影响，A组和B组数据同分布</li>
+</ul>
+<p>替代假设（alternative hypothesis）：H1，某种程度上与 H0 相反的假设。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> t</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/06/20/%E6%95%B0%E6%8D%AE%E5%BB%BA%E6%A8%A1%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0/" data-id="ckq4lgm3h0000h4upddaz31g2" data-title="数据建模：统计分析概述" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-Spring学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -1619,7 +1937,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li></ul>
     </div>
   </div>
 
@@ -1630,6 +1948,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/06/20/%E6%95%B0%E6%8D%AE%E5%BB%BA%E6%A8%A1%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90%E6%A6%82%E8%BF%B0/">数据建模：统计分析概述</a>
+          </li>
         
           <li>
             <a href="/2021/05/25/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Spring学习笔记</a>
